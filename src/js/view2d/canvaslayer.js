@@ -10,7 +10,7 @@ Object.assign(View2dCanvasLayer.prototype, {
         this.layersOrder = ["ROOM", "AREA"];
         CS(this, "init");
 
-        var o = this.context.circle(0, 0, 20).attr({
+        var o = this.context.circle(0, 0, 10).attr({
             fill: "red"//仅仅用来测试，没有实际意义
         })
     },

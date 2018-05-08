@@ -44,7 +44,7 @@ function popUpSketcherDialogPromise(host, side) {
             parent.css("z-index", 1000).find(".layui-layer-title").attr("style", "cursor:move;");
             $(".sketcherDialog .right").css("width", window.innerWidth - 770 + "px");
             if (!SketcherEditor_svg)initSketcherEditor();
-            SketcherEditor_svg.show(host, side);
+            SketcherEditor_svg.show(globalScene);
             hideSketcherSettingBox();
         }, end: function () {
             hideSketcherSettingBox();

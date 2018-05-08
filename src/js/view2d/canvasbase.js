@@ -43,7 +43,7 @@ Object.assign(View2dCanvasBase.prototype, {
     fit: function (userBound) {
         if (!this.context)return;
         var clientRect = this.dom && this.dom.getBoundingClientRect && this.dom.getBoundingClientRect();
-        var domClientRectBound = new Bound(clientRect.left - clientRect.width / 2, clientRect.top - clientRect.height / 2, clientRect.width, clientRect.height);
+        var domClientRectBound = new Bound(-clientRect.left + clientRect.width / 2, clientRect.top - clientRect.height / 2, clientRect.width, clientRect.height);
         this.viewport = domClientRectBound;
         this.context.attr("viewBox", this.viewport.left + "," + this.viewport.top + "," + this.viewport.width + "," + this.viewport.height);
 

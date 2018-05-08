@@ -18,6 +18,7 @@ function startupUI(xmls) {
 
 function main() {
     startupUI([
+        "ui/layout/layout.xml",
         "ui/dialog/sketcher_dialog.xml",
         "ui/dialog/sketcher_setting.xml"
     ]).then(function () {

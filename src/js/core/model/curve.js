@@ -5,7 +5,7 @@ function Curve(opt) {
     defineValue(this, "ex", NaN);
     defineValue(this, "ey", NaN);
 }
-CE(Curve,Entity);
+CE(Curve, Entity);
 
 Object.defineProperties(Curve.prototype, {
     begin: {
