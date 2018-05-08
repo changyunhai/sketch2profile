@@ -1,0 +1,162 @@
+.sketcherDialog {
+  width: 100%;
+  height: 100%;
+  .main {
+    height: 100%;
+    .left_side {
+      width: 250px;
+      float: left;
+      height: 100%;
+      border-right: 1px solid grey;
+      .title {
+        margin-top: 5px;
+        margin-left: 10px;
+        font-size: 15px;
+      }
+      .shape_list {
+        li {
+          float: left;
+          cursor: pointer;
+          div {
+            width: 100px;
+            height: 100px;
+            margin-top: 10px;
+            margin-left: 10px;
+            position: relative;
+            margin-bottom: 20px;
+            border: 2px solid transparent;
+            &:after {
+              position: absolute;
+              bottom: -23px;
+              width: 100px;
+              text-align: center;
+            }
+          }
+          .fillet {
+            background: url("asset/sketcherimg/fillet2.jpg") no-repeat transparent;
+            background-size: 100%;
+            &:after {
+              content: "倒圆角";
+            }
+          }
+          .line {
+            background: url("asset/sketcherimg/areacutoffrule.jpg") no-repeat transparent;
+            background-size: 100%;
+            &:after {
+              content: "区域分割线";
+            }
+          }
+          .rectArea {
+            background: url("asset/sketcherimg/rectarea.jpg") no-repeat transparent;
+            background-size: 100%;
+            &:after {
+              content: "矩形区域";
+            }
+          }
+          .circleArea {
+            background: url("asset/sketcherimg/circlearea.jpg") no-repeat transparent;
+            background-size: 100%;
+            &:after {
+              content: "圆形区域";
+            }
+          }
+          &:hover {
+            div {
+              border: 2px solid #00efff;
+            }
+          }
+        }
+      }
+    }
+    .right {
+      float: right;
+      height: 100%;
+      position: relative;
+      #sketcherEditDialogSvg {
+        width: 99%;
+        height: 99%;
+        position: absolute;
+        margin: auto;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0%;
+        border: 1px solid grey;
+        background: #D3D3D3;
+      }
+    }
+  }
+
+  .sketcherSettingBox {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    display: none;
+    width: 140px;
+    background: white;
+    border: 1px solid gray;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px grey;
+    .crossSectionImg {
+      width: 30px;
+      height: 30px;
+      display: inline-flex;
+      background: url("http://pic6.nn-home.com/filesystem/product/pD78kU7oFczgzmviKpXn/thumb.jpg") no-repeat 100% transparent;
+      background-position: center;
+      background-size: 90%;
+    }
+    //    .crossSectionRotate {
+    //      width: 15px;
+    //      height: 15px;
+    //      display: inline-flex;
+    //      background: url("asset/sketcherimg/rotate.jpg") no-repeat 100% transparent;
+    //      background-position: center;
+    //      background-size: 90%;
+    //    }
+    //    .crossSectionFlip {
+    //      width: 15px;
+    //      height: 15px;
+    //      display: inline-flex;
+    //      background: url("asset/sketcherimg/flip.jpg") no-repeat 100% transparent;
+    //      background-position: center;
+    //      background-size: 90%;
+    //    }
+    .title {
+      background: gray;
+      color: white;
+      text-align: center;
+      padding: 5px;
+      .close {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 1px solid white;
+        text-align: center;
+        line-height: 15px;
+        color: white;
+        float: right;
+        margin-right: 5px;
+      }
+    }
+    .item {
+      padding: 5px 10px;
+      label {
+        margin-right: 8px;
+      }
+      input {
+        font-size: 11px;
+        width: 50px;
+      }
+    }
+    .separator {
+      padding: 3px;
+      border-color: darkgray;
+      border-bottom: 2px ridge;
+    }
+  }
+}
+
+
+

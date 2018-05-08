@@ -1,0 +1,100 @@
+<div class="sketcherDialog" style="display:none;">
+    <div class="main">
+        <div class="left_side">
+            <div class="title">自由绘制</div>
+            <div class="shape_wrapper">
+                <ul class="shape_list">
+                    <li>
+                        <div class="rectArea"></div>
+                    </li>
+                    <li>
+                        <div class="circleArea"></div>
+                    </li>
+                    <li>
+                        <div class="line"></div>
+                    </li>
+                    <li>
+                        <div class="fillet"></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="right">
+            <svg id="sketcherEditDialogSvg" xmlns="http://www.w3.org/2000/svg"
+                 xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMinYMin"></svg>
+        </div>
+    </div>
+
+
+    <div class="sketcherSettingBox">
+        <div class="sketcherarea">
+            <div class="general">
+                <div class="title">区域
+                    <span class="close">X</span>
+                </div>
+                <div class="item">
+                    <input type="button" class="resume" value="恢复" title="恢复为初始状态"/>
+                    <input type="button" class="rebuild" value="重新生成" title="重新生成"/>
+                </div>
+                <div class="item">
+                    <input type="button" class="makeOffset" value="偏移" title="偏移"/>
+                    <input type="button" class="delete" value="删除" title="删除"/>
+                </div>
+            </div>
+
+            <div class="extrude"></div>
+            <div class="sweep"></div>
+
+        </div>
+        <div class="sketchercurveline">
+            <div class="general">
+                <div class="title">直线段
+                    <span class="close">X</span>
+                </div>
+                <div class="item">
+                    <input type="button" class="resume" value="恢复" title="恢复为初始状态"/>
+                    <input type="button" class="delete" value="删除" title="删除"/>
+                </div>
+                <div class="separator"></div>
+                <div class="item">
+                    <input type="button" class="split" value="打断"/>
+                    <input type="button" class="merge" value="合并" title="合并相邻的同方向直线段"/>
+                </div>
+                <div class="item">
+                    <input type="button" class="toArc" value="转圆弧"/>
+                </div>
+            </div>
+            <div class="sweep"></div>
+        </div>
+        <div class="sketchercurvearc">
+            <div class="general">
+                <div class="title">圆弧段
+                    <span class="close">X</span>
+                </div>
+                <div class="item">
+                    <input type="button" class="resume" value="恢复" title="恢复为初始状态"/>
+                    <input type="button" class="delete" value="删除" title="删除"/>
+                </div>
+                <div class="separator"></div>
+                <div class="item">
+                    <input type="button" class="split" value="打断"/>
+                    <input type="button" class="merge" value="合并" title="合并相邻的同心圆弧段"/>
+                </div>
+                <div class="item">
+                    <input type="button" class="toLine" value="转直线段"/>
+                    <input type="button" class="flip" value="反转"/>
+                </div>
+                <div class="item">
+                    <input type="button" class="toHalfArc" value="转半圆弧"/>
+                    <input type="button" class="toQuarterArc" value="转1/4圆弧"/>
+                </div>
+                <div class="item">
+                    <input type="button" class="toAngledArc" value="设圆心角"/>
+                </div>
+            </div>
+            <div class="sweep"></div>
+        </div>
+    </div>
+
+</div>
+
