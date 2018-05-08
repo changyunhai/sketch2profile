@@ -1,15 +1,15 @@
-function defineValue(root, name, defaultValue) {
-    var internalName = '___' + name;
-    root[internalName] = defaultValue;
-    Object.defineProperty(root, name, {
+function defineValue(root, n, defaultValue) {
+    var iN = '___' + n;
+    root[iN] = defaultValue;
+    Object.defineProperty(root, n, {
         get: function () {
-            return this[internalName];
+            return this[iN];
         },
-        set: function (value) {
-            if (value !== this[internalName]) {
-                var old = this[internalName];
-                this[internalName] = value;
-                if (this.vce) this.vce.dispatch(this, name, old, value);
+        set: function (v) {
+            if (v !== this[iN]) {
+                var old = this[iN];
+                this[iN] = v;
+                if (this.vce) this.vce.dispatch(this, n, old, v);
             }
         }
     });
