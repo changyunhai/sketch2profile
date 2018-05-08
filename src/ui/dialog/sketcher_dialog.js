@@ -23,7 +23,7 @@ $(".sketcherDialog .main .shape_list .fillet").on(click, function () {
     return;
 });
 
-function popUpSketcherDialogPromise(host, side) {
+function popUpSketcherDialogPromise(curves) {
     var layerIndex = layer.open({
         type: 1,
         title: "自定义区域（Alpha预览版）",
@@ -38,13 +38,12 @@ function popUpSketcherDialogPromise(host, side) {
         success: function () {
             var parent = $(".sketcherDialog").parents(".layui-layer-grey");
             if (parent.draggable)parent.draggable({
-                distance: 10,
-                handle: ".layui-layer-title"
-            });
-            parent.css("z-index", 1000).find(".layui-layer-title").attr("style", "cursor:move;");
+                distance: 10, handle: ".layui-layer-title"
+            }).css("z-index", 1000).find(".layui-layer-title").attr("style", "cursor:move;");
+
             $(".sketcherDialog .right").css("width", window.innerWidth - 770 + "px");
             if (!SketcherEditor_svg)initSketcherEditor();
-            SketcherEditor_svg.show(globalScene);
+            SketcherEditor_svg.show(sceneAllModels());
             hideSketcherSettingBox();
         }, end: function () {
             hideSketcherSettingBox();
