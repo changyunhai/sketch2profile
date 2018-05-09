@@ -67,6 +67,13 @@ Object.assign(CurveArc.prototype, {
         var valid = CS(this, "isValid");
         return valid && isFinite(this.mx) && isFinite(this.my) && isFinite(this.radius);
     },
+    toJSON: function () {
+        var saved = CS(this, "toJSON");
+        saved.type = "CurveArc";
+        saved.mx = this.mx;
+        saved.my = this.my;
+        return saved;
+    },
 
     getPolygon: function () {
         if (!this.isValid())return [];
@@ -84,7 +91,7 @@ Object.assign(CurveArc.prototype, {
             loop.push(pt);
         }
         loop.push({x: this.end.x, y: this.end.y, pid: this.end.id});//end
-        console.log(+"CurveArc , center=[" + (center && center.x) + "," + (center && center.y) + "],radius=" + this.radius
+        console.log("CurveArc , center=[" + (center && center.x) + "," + (center && center.y) + "],radius=" + this.radius
         + ",begin=[" + this.begin.x + "," + this.begin.y + "],end=[" +
         this.end.x + "," + this.end.y + "],fanAngle=" + fanAngle);
         return loop;

@@ -1,3 +1,7 @@
+// Provide API.
+window.System = window.System || {};
+
+
 function defineValue(root, n, defaultValue) {
     var iN = '___' + n;
     root[iN] = defaultValue;
@@ -21,7 +25,7 @@ function uuid() {
         return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
     }
 
-    return "id" + S4() + S4() + S4();
+    return "id" + S4() + S4() + S4() + S4() + S4() + S4();
 }
 
 

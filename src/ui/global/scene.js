@@ -1,8 +1,8 @@
 var ___globalScene = [];// used inside this file only.
 var ___globalPicked = [];// used inside this file only.
 
-var sceneChangedEvt = signals.Signal();
-var pickedChangedEvt = signals.Signal();
+var sceneChangedEvt = new signals.Signal();
+var pickedChangedEvt = new signals.Signal();
 
 // picked:
 function pickModel(model, shouldAppend/*default false*/) {

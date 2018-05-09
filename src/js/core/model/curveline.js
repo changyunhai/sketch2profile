@@ -38,6 +38,11 @@ Object.assign(CurveLine.prototype, {
         var valid = CS(this, "isValid");
         return valid && (this.getLength && this.getLength() > 0.05);
     },
+    toJSON: function () {
+        var saved = CS(this, "toJSON");
+        saved.type = "CurveLine";
+        return saved;
+    },
     getPolygon: function () {
         return [{x: this.begin.x, y: this.begin.y, pid: this.begin.id},
             {x: this.end.x, y: this.end.y, pid: this.end.id}];

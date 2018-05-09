@@ -34,10 +34,12 @@ Object.assign(CmdBase.prototype, {
             cmd.begin();
             _cmdCurrent = cmd;
         }, cmdEnd: function () {
-            _cmdCurrent.end();
+            _cmdCurrent && _cmdCurrent.end();
             _cmdCurrent = undefined;
         }, cmdCurrent: function () {
             return _cmdCurrent;
+        }, cmdExe: function () {
+            _cmdCurrent && _cmdCurrent.exe.apply(_cmdCurrent, arguments);
         }
     });
 })();

@@ -30,7 +30,7 @@ Object.assign(SketcherEditorCanvas.prototype, {
             "DEBUG"
         );
     },
-    show: function () {
+    show: function (scene) {
         this.clear();
 
         // step1: clear all existing layers:
@@ -42,16 +42,20 @@ Object.assign(SketcherEditorCanvas.prototype, {
         }
         this.viewBound.reset();
         // step2: create display:
-        this.createDisplay();
+        this.createDisplay(scene);
 
         // step3: fit:
         var viewBound = this.viewBound.addMarginClone(0.8, 0.8);
         viewBound.scale(100, 100);
         this.fit(viewBound);
     },
-    createDisplay: function (type) {
+    createDisplay: function (models) {
+        models.forEach(function (model) {
+            var svgObject = this.viewObjects[model.id];
+            if (!svgObject)svgObject = sketcherEditorCreateViewObject(this, model);
+            this.viewObjects[model.id] = svgObject;
+        }, this);
     }
-
 });
 
 
@@ -60,7 +64,7 @@ function utilBindSketcherEditorEvents(view) {
     var svg = context.defs.ownerSVGElement;
 
     function onMouseEvent(evt) {
-        var position = view.PS2M(view, evt.pageX, evt.pageY);
+        var position = view.PS2M(evt.pageX, evt.pageY);
         System.cmdExe(evt.type + "_sketchereditor2d", evt, position);
     }
 
@@ -72,12 +76,24 @@ function utilBindSketcherEditorEvents(view) {
 function initSketcherEditor() {
     var dom = document.getElementById("sketcherEditDialogSvg");
     var canvas = SketcherEditor_svg = new SketcherEditorCanvas(dom, {name: "SketcherEditor"});
+    sceneChangedEvt.add(sceneChangeEvtHandler);
 }
 
 
 var SketcherEditor_svg = undefined;// important......
+function sketcherEditorCreateViewObject(view, model) {
+    if (!(model instanceof Curve)) {
+        console.error("Unknown model type!");
+        return;
+    }
+    console.assert(view.viewObjects[model.id] == undefined);
 
-setTimeout(function () {
+    var svgObjectType = SketcherEditorCurve;
+    var svgObject = new svgObjectType(view, model);
+    svgObject.create(), svgObject.update();
+    return svgObject;
+}
+setInterval(function () {
     if (!SketcherEditor_svg)return;
     Object.keys(SketcherEditor_svg.viewObjects).forEach(function (key) {
         var obj = SketcherEditor_svg.viewObjects[key];
@@ -85,15 +101,13 @@ setTimeout(function () {
     });
 }, 50);
 
-sceneChangedEvt.add(function (scene, op, model) {
+function sceneChangeEvtHandler(scene, op, model) {
     if (!SketcherEditor_svg || !model) {
         return;
     }
-    var svgObjectType = SketcherEditorCurve;
     var svgObject = SketcherEditor_svg.viewObjects[model.id];
     if (op == "add" && !svgObject) {
-        svgObject = new svgObjectType(SketcherEditor_svg, model);
-        svgObject.create(), svgObject.update();
+        svgObject = sketcherEditorCreateViewObject(SketcherEditor_svg, model);
         SketcherEditor_svg.viewObjects[model.id] = svgObject;
     } else if (op == "remove" && svgObject) {
         svgObject.destroy();
@@ -101,4 +115,4 @@ sceneChangedEvt.add(function (scene, op, model) {
     } else {
         console.warn("scene change warning: " + op);
     }
-});
+};

@@ -2,25 +2,15 @@ startupUI([
     "ui/dialog/sketcher_dialog.xml"
 ]).then(function () {
     $(".sketcherDialog .main .shape_list .rectArea").on(click, function () {
-        utilCmdBeginNoEnd("CmdSketcherAddRect".toUpperCase(), {
-            host: SketcherEditor_svg.host,
-            side: SketcherEditor_svg.side
-        });
+        System.cmdBegin(new CmdAddRect());
     });
 
     $(".sketcherDialog .main .shape_list .circleArea").on(click, function () {
-        utilCmdBeginNoEnd("CmdSketcherAddCircle".toUpperCase(), {
-            host: SketcherEditor_svg.host,
-            side: SketcherEditor_svg.side
-        });
     });
 
     $(".sketcherDialog .main .shape_list .line").on(click, function () {
-        utilCmdBeginNoEnd("CmdSketcherAddLine".toUpperCase(), {
-            host: SketcherEditor_svg.host,
-            side: SketcherEditor_svg.side
-        });
     });
+
     $(".sketcherDialog .main .shape_list .fillet").on(click, function () {
         layer.alert("尚未完成...");
         return;
@@ -32,7 +22,7 @@ function popUpSketcherDialogPromise(curves) {
         type: 1,
         title: "自定义区域（Alpha预览版）",
         skin: 'layui-layer-grey',
-        shade: 0,
+        shade: 0.2,
         shadeClose: false,
         maxmin: false,
         move: false,
@@ -52,6 +42,7 @@ function popUpSketcherDialogPromise(curves) {
         }, end: function () {
             hideSketcherSettingBox();
             $(".sketcherDialog").hide();
+            sceneReset();
         }
     });
 }

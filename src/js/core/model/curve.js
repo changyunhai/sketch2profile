@@ -23,6 +23,15 @@ Object.defineProperties(Curve.prototype, {
     }
 });
 Object.assign(Curve.prototype, {
+    toJSON: function () {
+        var saved = CS(this, "toJSON");
+        saved.type = "Curve";
+        saved.bx = this.bx;
+        saved.by = this.by;
+        saved.ex = this.ex;
+        saved.ey = this.ey;
+        return saved;
+    },
     getPolygon: function () {
         return [];
     },
