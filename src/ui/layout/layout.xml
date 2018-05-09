@@ -1,7 +1,7 @@
 <div class="main_wrapper">
     <div class="area_change_box">
         <h5 class="title">请选择默认的区域</h5>
-        <from class="">
+        <form class="">
             <input checked="checked" type="radio" name="area" id="default_rect"></input>
             <label for="default_rect">4 x 3 Rect</label>
             <br/>
@@ -10,7 +10,7 @@
             <br/>
             <input type="radio" name="area" id="user_defined_area"></input>
             <label for="user_defined_area">自定义：</label>
-        </from>
+        </form>
         <pre>
 <textarea rows="8" cols="20" class="user_defined_area">
 [

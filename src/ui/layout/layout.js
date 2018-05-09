@@ -4,7 +4,7 @@ startupUI([
     // area okbutton
     $(".area_change_box .ok_button").on(click, function () {
         var curves = [];
-        var checkedRadioId = $(".area_change_box from input:checked").attr("id");
+        var checkedRadioId = $(".area_change_box form input:checked").attr("id");
         if (checkedRadioId == "user_defined_area") {
             var str = $(".area_change_box .user_defined_area").text().trim();
             curves = eval(str);
