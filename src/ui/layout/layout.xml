@@ -1,0 +1,24 @@
+<div class="main_wrapper">
+	<div class="area_change_box">
+		<h5 class="title">请选择默认的区域</h5>
+		<from class="">
+			<input checked="checked" type="radio" name="area" id="default_area"><label for="default_area">4 x 3矩形</label>
+			<br/>
+			<input type="radio" name="area" id="user_defined_area"><label for="user_defined_area">自定义：<label>
+		</from>	
+		<pre>
+<textarea rows="8" cols="20" class="user_defined_area">
+ [
+  {x:-2,y:1.5},
+  {x:2,y:1.5},
+  {x:2,y:-1.5},
+  {x:-2,y:-1.5},
+  {x:-2,y:1.5}
+ ]
+</textarea>
+		</pre>
+		
+		<div class="button ok_button radius tcenter bcenter pointer">确定</div>
+		
+	</div>
+</div>	
