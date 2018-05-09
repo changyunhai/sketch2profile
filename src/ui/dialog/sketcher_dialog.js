@@ -1,26 +1,30 @@
-$(".sketcherDialog .main .shape_list .rectArea").on(click, function () {
-    utilCmdBeginNoEnd("CmdSketcherAddRect".toUpperCase(), {
-        host: SketcherEditor_svg.host,
-        side: SketcherEditor_svg.side
+startupUI([
+    "ui/dialog/sketcher_dialog.xml"
+]).then(function () {
+    $(".sketcherDialog .main .shape_list .rectArea").on(click, function () {
+        utilCmdBeginNoEnd("CmdSketcherAddRect".toUpperCase(), {
+            host: SketcherEditor_svg.host,
+            side: SketcherEditor_svg.side
+        });
     });
-});
 
-$(".sketcherDialog .main .shape_list .circleArea").on(click, function () {
-    utilCmdBeginNoEnd("CmdSketcherAddCircle".toUpperCase(), {
-        host: SketcherEditor_svg.host,
-        side: SketcherEditor_svg.side
+    $(".sketcherDialog .main .shape_list .circleArea").on(click, function () {
+        utilCmdBeginNoEnd("CmdSketcherAddCircle".toUpperCase(), {
+            host: SketcherEditor_svg.host,
+            side: SketcherEditor_svg.side
+        });
     });
-});
 
-$(".sketcherDialog .main .shape_list .line").on(click, function () {
-    utilCmdBeginNoEnd("CmdSketcherAddLine".toUpperCase(), {
-        host: SketcherEditor_svg.host,
-        side: SketcherEditor_svg.side
+    $(".sketcherDialog .main .shape_list .line").on(click, function () {
+        utilCmdBeginNoEnd("CmdSketcherAddLine".toUpperCase(), {
+            host: SketcherEditor_svg.host,
+            side: SketcherEditor_svg.side
+        });
     });
-});
-$(".sketcherDialog .main .shape_list .fillet").on(click, function () {
-    layer.alert("尚未完成...");
-    return;
+    $(".sketcherDialog .main .shape_list .fillet").on(click, function () {
+        layer.alert("尚未完成...");
+        return;
+    });
 });
 
 function popUpSketcherDialogPromise(curves) {
@@ -47,6 +51,7 @@ function popUpSketcherDialogPromise(curves) {
             hideSketcherSettingBox();
         }, end: function () {
             hideSketcherSettingBox();
+            $(".sketcherDialog").hide();
         }
     });
 }

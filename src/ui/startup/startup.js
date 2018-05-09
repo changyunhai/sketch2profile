@@ -14,17 +14,3 @@ function startupUI(xmls) {
     });
     return p;
 }
-
-
-function main() {
-    startupUI([
-        "ui/layout/layout.xml",
-        "ui/dialog/sketcher_dialog.xml",
-        "ui/dialog/sketcher_setting.xml"
-    ]).then(function () {
-
-    });
-}
-
-
-main();
