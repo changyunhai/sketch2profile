@@ -64,13 +64,18 @@ function utilBindSketcherEditorEvents(view) {
     var svg = context.defs.ownerSVGElement;
 
     function onMouseEvent(evt) {
+        //console.log(evt.type);
         var position = view.PS2M(evt.pageX, evt.pageY);
         System.cmdExe(evt.type + "_sketchereditor2d", evt, position);
+        if (evt.type == "click") {
+            pickModel(undefined, evt.ctrlKey);
+        }
     }
 
     svg.addEventListener('mousedown', onMouseEvent);
     svg.addEventListener('mousemove', onMouseEvent);
     svg.addEventListener('mouseup', onMouseEvent);
+    svg.addEventListener('click', onMouseEvent);
 }
 
 function initSketcherEditor() {
