@@ -8,11 +8,16 @@ var pickedChangedEvt = signals.Signal();
 function pickModel(model, shouldAppend/*default false*/) {
     if (shouldAppend === true) {
         var isAdded = ArrayPushIfNotHas(___globalPicked, model);
-        if (isAdded)pickedChangedEvt.dispatch(___globalPicked);
+        if (isAdded)pickedChangedEvt.dispatch(___globalPicked, "add", model);
     } else {
+        ___globalPicked.forEach(function (picked) {
+            pickedChangedEvt.dispatch(___globalPicked, "remove", picked);
+        });
         ___globalPicked = [];
-        if (model)___globalPicked.push(model);
-        pickedChangedEvt.dispatch(___globalPicked);
+        if (model) {
+            ___globalPicked.push(model);
+            pickedChangedEvt.dispatch(___globalPicked, "add", model);
+        }
     }
 }
 function pickedModel() {
@@ -32,4 +37,12 @@ function sceneRemoveModel(model) {
 }
 function sceneAllModels() {
     return ___globalScene;
+}
+function sceneReset() {
+    pickModel();
+    ___globalScene.forEach(function (model) {
+        sceneRemoveModel(model);
+    });
+    ___globalPicked = [];
+    ___globalScene = [];
 }

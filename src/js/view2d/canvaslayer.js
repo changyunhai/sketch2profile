@@ -26,16 +26,6 @@ Object.assign(View2dCanvasLayer.prototype, {
     },
 
     update: function (scene) {
-        scene.filter(function (e) {
-            return e.type == "ROOM";
-        }).forEach(function (roomModel) {
-            if (!this.viewObjects[roomModel.id]) {
-                var r = this.viewObjects[roomModel.id] = new ViewObjectRoom(this, roomModel);
-                r.update();
-                this.layers["ROOM"].add(r.svgs);
-            }
-        }, this)
-
 
     },
     fit: function () {

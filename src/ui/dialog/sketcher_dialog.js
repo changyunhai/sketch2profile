@@ -47,6 +47,7 @@ function popUpSketcherDialogPromise(curves) {
             hideSketcherSettingBox();
         }, end: function () {
             hideSketcherSettingBox();
+            sceneReset();
         }
     });
 }
