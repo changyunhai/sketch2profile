@@ -20,7 +20,7 @@ startupUI([
 function popUpSketcherDialogPromise(curves) {
     var layerIndex = layer.open({
         type: 1,
-        title: "自定义区域（Alpha预览版）",
+        title: "由草图生成区域（Alpha预览版）",
         skin: 'layui-layer-grey',
         shade: 0.2,
         shadeClose: false,
