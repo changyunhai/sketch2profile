@@ -110,15 +110,15 @@ var sketch2profile = (function () {
 
     function BL() {
         buildMCUED();
-        var mcued = MCUED;// unused.
         removeDupEd();
+        var dupEd = ED, mcued = MCUED;// unused.
 
         var borderEdInfo = undefined;
         do {
             makeManStr();
             var borderEdInfo = findBorderEd();
             if (borderEdInfo) {
-                var loop = buildProfile(borderEdInfo.vid, borderEdInfo.eid);
+                var loop = buildPf(borderEdInfo.vid, borderEdInfo.eid);
                 if (loop) LO[ided(loop)] = loop;
                 removeEd(borderEdInfo.eid);
             }
@@ -177,12 +177,15 @@ var sketch2profile = (function () {
             var oldC = findModel(e.c);
             var mcued = oldC.clone();
             var begin = VE[e.v1], end = VE[e.v2], middle = VE[e.mid];
-            mcued.begin.x = begin.x, mcued.begin.y = begin.y;
-            mcued.end.x = end.x, mcued.end.y = end.y;
-            if (mcued instanceof CurveArc) {//todo bugs may happen here ......
-                var oldCenter = oldC.center;
-                mcued.center = oldCenter;
-            }
+            mcued.begin = begin, mcued.end = end;
+            if (oldC.center)mcued.center = oldC.center;
+
+            //mcued.begin.x = begin.x, mcued.begin.y = begin.y;//todo bugs may happen here ......
+            //mcued.end.x = end.x, mcued.end.y = end.y;
+            //if (mcued instanceof CurveArc) {//todo bugs may happen here ......
+            //    var oldCenter = oldC.center;
+            //    mcued.center = oldCenter;
+            //}
             e.nc = mcued.id, MCUED[mcued.id] = mcued;
         }
     }
@@ -261,7 +264,7 @@ var sketch2profile = (function () {
         return undefined;
     }
 
-    function buildProfile(startVId, edId) {
+    function buildPf(startVId, edId) {
 
         function turnR(commonV, walkedEd) {// turn right
             var fromTangent = getTan(walkedEd, commonV);

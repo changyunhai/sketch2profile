@@ -80,26 +80,6 @@ function utilBindSketcherEditorEvents(view) {
     svg.addEventListener('click', onMouseEvent);
 }
 
-function initSketcherEditor() {
-    var dom = document.getElementById("sketcherEditDialogSvg");
-    var canvas = SketcherEditor_svg = new SketcherEditorCanvas(dom, {name: "SketcherEditor"});
-    sceneChangedEvt.add(sceneChangeEvtHandler);
-}
-
-
-var SketcherEditor_svg = undefined;// important......
-function sketcherEditorCreateViewObject(view, model) {
-    if (!(model instanceof Curve)) {
-        console.error("Unknown model type!");
-        return;
-    }
-    console.assert(view.viewObjects[model.id] == undefined);
-
-    var svgObjectType = SketcherEditorCurve;
-    var svgObject = new svgObjectType(view, model);
-    svgObject.create(), svgObject.update();
-    return svgObject;
-}
 setInterval(function () {
     if (!SketcherEditor_svg)return;
     Object.keys(SketcherEditor_svg.viewObjects).forEach(function (key) {
@@ -107,19 +87,3 @@ setInterval(function () {
         if (obj && obj.dF != 0) obj.update(), obj.dF = 0;
     });
 }, 50);
-
-function sceneChangeEvtHandler(scene, op, model) {
-    if (!SketcherEditor_svg || !model) {
-        return;
-    }
-    var svgObject = SketcherEditor_svg.viewObjects[model.id];
-    if (op == "add" && !svgObject) {
-        svgObject = sketcherEditorCreateViewObject(SketcherEditor_svg, model);
-        SketcherEditor_svg.viewObjects[model.id] = svgObject;
-    } else if (op == "remove" && svgObject) {
-        svgObject.destroy();
-        delete SketcherEditor_svg.viewObjects[model.id];
-    } else {
-        console.warn("scene change warning: " + op);
-    }
-};

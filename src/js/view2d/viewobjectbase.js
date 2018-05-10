@@ -15,6 +15,9 @@ Object.assign(ViewObjectBase.prototype, {
     update: function () {
     },
     destroy: function () {
+        this.svgs.forEach(function (ele) {
+            ele.remove();
+        });
     }
 });
 

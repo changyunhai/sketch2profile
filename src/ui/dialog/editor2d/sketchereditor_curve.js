@@ -150,11 +150,6 @@ Object.assign(SketcherEditorCurve.prototype, {
                 x2: center.x * f, y2: center.y * -f
             })
         }
-    },
-    destroy: function () {
-        this.svgs.forEach(function (ele) {
-            ele.remove();
-        });
     }
 });
 

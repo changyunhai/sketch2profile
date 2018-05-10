@@ -3,7 +3,7 @@ function CurveArc(opt) {
     defineValue(this, "mx", NaN);
     defineValue(this, "my", NaN);
 }
-CurveArc.prototype.type="CurveArc";
+CurveArc.prototype.type = "CurveArc";
 CE(CurveArc, Curve);
 
 var CURVEARC_TESSELATE_ARC_ANGLE = 3;
