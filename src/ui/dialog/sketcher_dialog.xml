@@ -27,6 +27,7 @@
 
 
     <div class="sketcherSettingBox">
+
         <div class="sketcherarea">
             <div class="general">
                 <div class="title">区域
@@ -41,11 +42,8 @@
                     <input type="button" class="delete" value="删除" title="删除"/>
                 </div>
             </div>
-
-            <div class="extrude"></div>
-            <div class="sweep"></div>
-
         </div>
+
         <div class="sketchercurveline">
             <div class="general">
                 <div class="title">直线段
@@ -64,8 +62,8 @@
                     <input type="button" class="toArc" value="转圆弧"/>
                 </div>
             </div>
-            <div class="sweep"></div>
         </div>
+
         <div class="sketchercurvearc">
             <div class="general">
                 <div class="title">圆弧段
@@ -92,7 +90,6 @@
                     <input type="button" class="toAngledArc" value="设圆心角"/>
                 </div>
             </div>
-            <div class="sweep"></div>
         </div>
     </div>
 

@@ -2,6 +2,7 @@ function Area(opt) {
     CS(this, opt);
     defineValue(this, "points", []);
 }
+Area.prototype.type = "Area";
 CE(Area, Entity);
 Object.assign(Area.prototype, {
     toJSON: function () {

@@ -9,6 +9,7 @@ startupUI([
     });
 
     $(".sketcherDialog .main .shape_list .line").on(click, function () {
+        System.cmdBegin(new CmdAddLine());
     });
 
     $(".sketcherDialog .main .shape_list .fillet").on(click, function () {
@@ -61,7 +62,7 @@ function showSketcherSettingBox(model) {
     $(".sketcherDialog .sketcherSettingBox").show();
     $(".sketcherDialog .sketcherSettingBox").children().hide();
     if (!model)return;
-    $(".sketcherDialog .sketcherSettingBox ." + model.type.toLowerCase()).show();
+    $(".sketcherDialog .sketcherSettingBox .sketcher" + model.type.toLowerCase()).show();
 }
 
 function hideSketcherSettingBox() {

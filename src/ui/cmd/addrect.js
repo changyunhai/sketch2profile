@@ -7,7 +7,7 @@ function CmdAddRect() {
     this.right = undefined;
     this.points = [];
 };
-CE(CmdAddRect, CmdBase);
+CE(CmdAddRect, CmdAdd);
 Object.assign(CmdAddRect.prototype, {
     begin: function () {
         CS(this, "begin");
@@ -22,59 +22,33 @@ Object.assign(CmdAddRect.prototype, {
         sceneAddModel(this.bottom);
         sceneAddModel(this.left);
     },
-    end: function () {
-        CS(this, "end");
-        buildArea();
-    },
 
-    onMouseDown: function (evt, pos) {
-        if (evt.button == 1) {
-            return;// mouse wheel click, pan the canvas.
-        }
-        var firstPoint = this.points[0];
-
-        if (firstPoint == undefined) {
-            var x = pos.x, y = pos.y;
-            firstPoint = this.points[0] = {x: x, y: y};
-
-            this.top.bx = this.top.ex = x;
-            this.top.by = this.top.ey = y;
-
-            this.bottom.bx = this.bottom.ex = x;
-            this.bottom.by = this.bottom.ey = y;
-
-            this.left.bx = this.left.ex = x;
-            this.left.by = this.left.ey = y;
-
-            this.right.bx = this.right.ex = x;
-            this.right.by = this.right.ey = y;
-        } else {
-            this._moveSecondPoint(pos);
-            this.points[1] = pos;
+    setPoint: function (idx, pos, evt) {
+        pos = CS(this, "setPoint", idx, pos, evt);
+        if (idx == 0) {
+            this.top.begin = this.top.end = pos;
+            this.right.begin = this.right.end = pos;
+            this.bottom.begin = this.bottom.end = pos;
+            this.left.begin = this.left.end = pos;
+        } else if (idx == 1) {
+            this.movePoint(idx, pos, evt);
             System.cmdEnd();
         }
     },
+    movePoint: function (idx, pos, evt) {
+        pos = CS(this, "movePoint", idx, pos, evt);
+        if (idx == 1) {
+            var x = pos.x, y = pos.y;
 
-    onMouseMove: function (evt, pos) {
-        var firstPoint = this.points[0];
-        if (!firstPoint) return;
-        this._moveSecondPoint(pos);
-    },
-
-    onMouseUp: function (evt, pos) {
-    },
-
-    //---private:
-    _moveSecondPoint: function (pos) {
-        var x = pos.x, y = pos.y;
-
-        if (isFinite(x)) {
-            this.top.ex = this.right.bx = x;
-            this.right.ex = this.bottom.bx = x;
-        }
-        if (isFinite(y)) {
-            this.right.ey = this.bottom.by = y;
-            this.bottom.ey = this.left.by = y;
+            if (isFinite(x)) {
+                this.top.ex = this.right.bx = x;
+                this.right.ex = this.bottom.bx = x;
+            }
+            if (isFinite(y)) {
+                this.right.ey = this.bottom.by = y;
+                this.bottom.ey = this.left.by = y;
+            }
         }
     }
+
 });
