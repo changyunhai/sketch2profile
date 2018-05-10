@@ -24,6 +24,7 @@ Object.assign(CmdAddRect.prototype, {
     },
     end: function () {
         CS(this, "end");
+        buildArea();
     },
 
     onMouseDown: function (evt, pos) {

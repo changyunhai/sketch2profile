@@ -3,6 +3,7 @@ function CurveArc(opt) {
     defineValue(this, "mx", NaN);
     defineValue(this, "my", NaN);
 }
+CurveArc.prototype.type="CurveArc";
 CE(CurveArc, Curve);
 
 var CURVEARC_TESSELATE_ARC_ANGLE = 3;
@@ -63,6 +64,11 @@ Object.defineProperties(CurveArc.prototype, {
 });
 
 Object.assign(CurveArc.prototype, {
+    copyTo: function (toEntity) {
+        CS(this, "copyTo", toEntity);
+        toEntity.mx = this.mx;
+        toEntity.my = this.my;
+    },
     isValid: function () {
         var valid = CS(this, "isValid");
         return valid && isFinite(this.mx) && isFinite(this.my) && isFinite(this.radius);

@@ -110,6 +110,7 @@ var sketch2profile = (function () {
 
     function BL() {
         buildMCUED();
+        var mcued = MCUED;// unused.
         removeDupEd();
 
         var borderEdInfo = undefined;

@@ -5,11 +5,13 @@ function Entity(opt) {
         this.vce = new signals.Signal()
     }
 }
-Object.assign(Entity.prototype, {
+Object.assign(Entity.prototype,IClonable, {
     toJSON: function () {
         var saved = {};
         saved.id = this.id;
         saved.flag = this.flag;
         return saved;
+    },copyTo:function(toEntity){
+        toEntity.flag = this.flag;
     }
 });

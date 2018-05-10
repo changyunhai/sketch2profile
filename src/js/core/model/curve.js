@@ -23,6 +23,13 @@ Object.defineProperties(Curve.prototype, {
     }
 });
 Object.assign(Curve.prototype, {
+    copyTo:function(toEntity){
+        CS(this,"copyTo",toEntity);
+        toEntity.bx = this.bx;
+        toEntity.by = this.by;
+        toEntity.ex = this.ex;
+        toEntity.ey = this.ey;
+    },
     toJSON: function () {
         var saved = CS(this, "toJSON");
         saved.type = "Curve";

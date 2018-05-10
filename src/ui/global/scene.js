@@ -20,7 +20,7 @@ function pickModel(model, shouldAppend/*default false*/) {
         }
     }
 }
-function pickedModel() {
+function pickedModels() {
     return ___globalPicked;
 }
 

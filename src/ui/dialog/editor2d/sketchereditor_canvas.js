@@ -54,6 +54,8 @@ Object.assign(SketcherEditorCanvas.prototype, {
             var svgObject = this.viewObjects[model.id];
             if (!svgObject)svgObject = sketcherEditorCreateViewObject(this, model);
             this.viewObjects[model.id] = svgObject;
+            this.viewBound.addPoint(model.begin);
+            this.viewBound.addPoint(model.end);
         }, this);
     }
 });

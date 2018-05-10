@@ -7,7 +7,6 @@ CE(View2dCanvasLayer, View2dCanvasBase);
 
 Object.assign(View2dCanvasLayer.prototype, {
     init: function () {
-        this.layersOrder = ["ROOM", "AREA"];
         CS(this, "init");
 
         var o = this.context.circle(0, 0, 10).attr({
@@ -26,11 +25,6 @@ Object.assign(View2dCanvasLayer.prototype, {
     },
 
     update: function (scene) {
-
-    },
-    fit: function () {
-        var sceneBound = undefined;//todo..
-        CS(this, "fit", sceneBound);
     }
 });
 

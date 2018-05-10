@@ -1,6 +1,7 @@
 function CurveLine(opt) {
     CS(this, opt);
 }
+CurveLine.prototype.type="CurveLine";
 CE(CurveLine, Curve);
 
 Object.defineProperties(CurveLine.prototype, {

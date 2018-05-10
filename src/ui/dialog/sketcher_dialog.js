@@ -18,6 +18,14 @@ startupUI([
 });
 
 function popUpSketcherDialogPromise(curves) {
+    // build scene:
+    for (var i = 0; i < (curves && curves.length - 1 || 0); ++i) {
+        var p0 = curves[i], p1 = curves[i + 1];
+        var curve = new CurveLine();
+        curve.begin = p0, curve.end = p1;
+        sceneAddModel(curve);
+    }
+
     var layerIndex = layer.open({
         type: 1,
         title: "由草图生成区域（Alpha预览版）",
@@ -38,6 +46,7 @@ function popUpSketcherDialogPromise(curves) {
             $(".sketcherDialog .right").css("width", window.innerWidth - 770 + "px");
             if (!SketcherEditor_svg)initSketcherEditor();
             SketcherEditor_svg.show(sceneAllModels());
+            buildArea();
             hideSketcherSettingBox();
         }, end: function () {
             hideSketcherSettingBox();

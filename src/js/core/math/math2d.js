@@ -3,11 +3,6 @@ function utilMathWhichSidePointOnLine(your, lineStart, lineEnd) {
     var delta = (p1.y - p0.y) * p.x - (p1.x - p0.x) * p.y + (p1.x * p0.y - p1.y * p0.x);
     return Math2d.Equals(delta, 0) ? "middle" : (delta > 0 ? "right" : "left");
 }
-function utilMathIsPointOnLineRightSide(your, lineStart, lineEnd) {
-    var side = utilMathWhichSidePointOnLine(your, lineStart, lineEnd);
-    return side == "right";
-}
-
 
 function utilMathRotatePointCW(base, your, angle) {
     return Vec2.rotateAroundPoint(Vec2.fromCoordinate(your), base, utilMathToRadius(angle));
@@ -21,12 +16,13 @@ function utilMathIsSamePoint(a, b, tolerance) {
     return utilMathEquals(a.x, b.x, tolerance) && utilMathEquals(a.y, b.y, tolerance);
 }
 
-//here it is:http://en.wikipedia.org/wiki/Line-line_intersection
+
 function utilMathIsLineParallel(p1, p2, p3, p4, tolerance) {
     return utilMathEquals((p1.x - p2.x) * (p3.y - p4.y) - (p1.y - p2.y) * (p3.x - p4.x), 0, tolerance);
 }
 
 function utilMathLineLineIntersection(p1, p2, p3, p4) {
+    //here it is from: http://en.wikipedia.org/wiki/Line-line_intersection
     var det = (p1.x - p2.x) * (p3.y - p4.y) - (p1.y - p2.y) * (p3.x - p4.x), invDet = 1.0 / det;
     var _tmp1 = (p1.x * p2.y - p1.y * p2.x), _tmp2 = (p3.x * p4.y - p3.y * p4.x);
     var _x = _tmp1 * (p3.x - p4.x) - (p1.x - p2.x) * _tmp2;
@@ -59,7 +55,7 @@ function utilMathGetScaledPoint(base, your, expectedLength) {
     var line = new Line(base.x, base.y, your.x, your.y);
     var lineLen = line.length();
     if (utilMathEquals(lineLen, 0)) {
-        console.warn("linelength=0, please check!!");
+        console.warn("linelength equals 0, please check!!");
         return;
     }
     return line.getInterpolatedPoint(expectedLength / lineLen);
@@ -81,6 +77,20 @@ function utilMathLinelineCCWAngle(base, from, to) {// (0,360]
     var delta = angle2 - angle1;
     return delta > 0 ? delta : 360 + delta;
 }
+function utilMathIsPointInLineSegment(pt, lineFrom, lineTo, tolerance) {
+    var line = new Line(lineFrom.x, lineFrom.y, lineTo.x, lineTo.y);
+    var closestPt = line.getClosestPoint(pt.x, pt.y);
+    if (!utilMathIsSamePoint(closestPt, pt, Math.abs(tolerance))) return false;
+
+    var length = line.length(), proportion = -tolerance / length;
+    var lerpFrom = Vec2.lerp(lineFrom, lineTo, proportion);
+    var lerpTo = Vec2.lerp(lineTo, lineFrom, proportion);
+
+    return Math.min(lerpFrom.x, lerpTo.x) <= closestPt.x &&
+        Math.max(lerpFrom.x, lerpTo.x) >= closestPt.x &&
+        Math.min(lerpFrom.y, lerpTo.y) <= closestPt.y &&
+        Math.max(lerpFrom.y, lerpTo.y) >= closestPt.y;
+}
 var Math2d = {
     Equals: utilMathEquals,
     IsSamePoint: utilMathIsSamePoint,
@@ -91,6 +101,7 @@ var Math2d = {
     RotatePointCW: utilMathRotatePointCW,
     LineLineIntersection: utilMathLineLineIntersection,
     GetLerpNumber: utilMathGetLerpNumber,
-    IsPointOnLineRightSide: utilMathIsPointOnLineRightSide
-
+    WhichSidePointOnLine: utilMathWhichSidePointOnLine,
+    IsLineParallel: utilMathIsLineParallel,
+    IsPointInLineSegment: utilMathIsPointInLineSegment
 };

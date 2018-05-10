@@ -112,7 +112,7 @@ Object.assign(SketcherEditorCurve.prototype, {
         this.dF |= 1;
 
         // add to Layer:
-
+        view.layers["CURVES"].add(this.svgs);
     },
     update: function () {
         var f = 100, curve = this.model, area = this.area;
