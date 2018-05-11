@@ -5,7 +5,6 @@ function CmdAddRect() {
     this.bottom = undefined;
     this.left = undefined;
     this.right = undefined;
-    this.points = [];
 };
 CE(CmdAddRect, CmdAdd);
 Object.assign(CmdAddRect.prototype, {

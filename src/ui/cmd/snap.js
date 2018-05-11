@@ -7,11 +7,20 @@ CE(CmdSnap, CmdBase);
 Object.assign(CmdSnap.prototype, {
     begin: function () {
         CS(this, "begin");
-        this.snappedCurves = sceneAllModels().filter(function (entity) {
+        var curves = sceneAllModels().filter(function (entity) {
             return entity instanceof Curve;
         });
-        this.snappedCurves.forEach(function (curve) {
+        var loops = sceneAllModels().filter(function (entity) {
+            return entity instanceof Loop;
+        });
+        this.snappedCurves = curves;
+        curves.forEach(function (curve) {
             this.snappedPoints.push(curve.begin, curve.end, curve.middle, curve.center);
+        }, this);
+        loops.forEach(function (loop) {
+            loop.curves.forEach(function (curve) {
+                this.snappedPoints.push(curve.begin, curve.end, curve.middle, curve.center);
+            }, this);
         }, this);
         this.snappedPoints = this.snappedPoints.filter(function (pt) {
             return pt;

@@ -11,8 +11,8 @@ function sketcherEditorCreateViewObject(view, model) {
     var svgObjectType = undefined;
     if (model instanceof Curve) {
         svgObjectType = SketcherEditorCurve;
-    } else if (model instanceof Area) {
-        svgObjectType = SketcherEditorArea;
+    } else if (model instanceof Loop) {
+        svgObjectType = SketcherEditorLoop;
     } else {
         console.error("Unknown model type!");
         return;

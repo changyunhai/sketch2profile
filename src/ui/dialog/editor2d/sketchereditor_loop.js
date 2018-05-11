@@ -1,8 +1,8 @@
-function SketcherEditorArea(view, model) {
+function SketcherEditorLoop(view, model) {
     CS(this, view, model);
 }
-CE(SketcherEditorArea, ViewObjectBase);
-Object.assign(SketcherEditorArea.prototype, {
+CE(SketcherEditorLoop, ViewObjectBase);
+Object.assign(SketcherEditorLoop.prototype, {
     create: function () {
         var context = this.view.context, tol = 0.05;
         if (!context)return;

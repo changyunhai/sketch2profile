@@ -4,12 +4,14 @@ function buildArea() {
         return entity instanceof Curve;
     });
     var areas = models.filter(function (entity) {
-        return entity instanceof Area;
+        return entity instanceof Loop;
     });
-    sketch2profile.INIT(curves);
-    var be = sketch2profile.BE();
-    var profiles = sketch2profile.BL();
+    var s2p = sketch2profile;
+    s2p.INIT(curves);
+    var be = s2p.BE();
+    var profiles = s2p.BL();
     var loops = profiles.LO, loopsIdx = 0;
+
     for (var loopId in loops) {
         var loop = loops[loopId];
         var vertices = loop.v.map(function (pt) {
@@ -17,10 +19,10 @@ function buildArea() {
         });
         var area = areas[loopsIdx++];
         if (!area) {
-            area = new Area();
+            area = new Loop();
             sceneAddModel(area);
         }
-        area.points = vertices;
+        area.curves = loop.nc;
     }
     for (var i = loopsIdx; i < areas.length; ++i) {
         var area = areas[i];

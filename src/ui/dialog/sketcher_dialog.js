@@ -6,6 +6,7 @@ startupUI([
     });
 
     $(".sketcherDialog .main .shape_list .circleArea").on(click, function () {
+        System.cmdBegin(new CmdAddCircle());
     });
 
     $(".sketcherDialog .main .shape_list .line").on(click, function () {

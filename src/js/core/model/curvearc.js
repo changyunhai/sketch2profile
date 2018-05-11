@@ -87,8 +87,8 @@ Object.assign(CurveArc.prototype, {
         var arcAngleDelta = CURVEARC_TESSELATE_ARC_ANGLE;
         var loop = [], center = this.center;
         var firstPt = this.begin;//Vec2.sum(curve.center, {x: curve.radius, y: 0});
-        var fanAngle = Math.abs(this.fan);//this.fan;//
-        var isMiddleOnRight = Math2d.IsPointOnLineRightSide(this.middle, this.begin, this.end);
+        var fanAngle = Math.abs(this.fan);//this.fan;//(Math2d.WhichSidePointOnLine(this.middle, this.begin, this.end) == "right")
+        var isMiddleOnRight = (Math2d.WhichSidePointOnLine(this.middle, this.begin, this.end) == "right");
 
         // build path:
         loop.push({x: this.begin.x, y: this.begin.y, pid: this.begin.id});//begin
@@ -112,8 +112,8 @@ Object.assign(CurveArc.prototype, {
         if (!pt)return false;
         if (Math2d.IsSamePoint(pt, this.begin) || Math2d.IsSamePoint(pt, this.end))return true;
         if (!Math2d.Equals(Math2d.LineLength(pt, this.center), this.radius))return false;
-        var isMiddleOnRight = Math2d.IsPointOnLineRightSide(this.middle, this.begin, this.end);
-        var isPtOnRight = Math2d.IsPointOnLineRightSide(pt, this.begin, this.end);
+        var isMiddleOnRight = (Math2d.WhichSidePointOnLine(this.middle, this.begin, this.end) == "right");
+        var isPtOnRight = (Math2d.WhichSidePointOnLine(pt, this.begin, this.end) == "right");
         return isMiddleOnRight === isPtOnRight;
     },
     getLerpNumber: function (pt) {
