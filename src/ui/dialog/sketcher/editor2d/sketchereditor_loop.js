@@ -28,9 +28,9 @@ Object.assign(SketcherEditorLoop.prototype, {
 
         // model events:
         model.vce.add(function (sender, field, oldV, newV) {
-            this.dF |= 1;
+            this.dF |= 1, this.update();
         }.bind(this));
-        this.dF |= 1;
+        this.dF |= 1, this.update();
 
         // add to Layer:
         view.layers["PROFILES"].add(this.svgs);

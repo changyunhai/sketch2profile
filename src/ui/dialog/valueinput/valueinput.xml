@@ -1,0 +1,11 @@
+<div class="ValueInputPopup" style="display:none;">
+    <div class="labelText"></div>
+    <div>
+        <input type="text" value="" size="25" class="ValueText"/>
+    </div>
+    <div style="text-align: center;">
+        <div class="OKButton">
+            确定
+        </div>
+    </div>
+</div>

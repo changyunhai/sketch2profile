@@ -79,11 +79,3 @@ function utilBindSketcherEditorEvents(view) {
     svg.addEventListener('mouseup', onMouseEvent);
     svg.addEventListener('click', onMouseEvent);
 }
-
-setInterval(function () {
-    if (!SketcherEditor_svg)return;
-    Object.keys(SketcherEditor_svg.viewObjects).forEach(function (key) {
-        var obj = SketcherEditor_svg.viewObjects[key];
-        if (obj && obj.dF != 0) obj.update(), obj.dF = 0;
-    });
-}, 50);

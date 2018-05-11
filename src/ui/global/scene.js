@@ -5,15 +5,19 @@ var sceneChangedEvt = new signals.Signal();
 var pickedChangedEvt = new signals.Signal();
 
 // picked:
+function unpickModel(model) {
+    var idx = ___globalPicked.indexOf(model);
+    if (idx == -1)return;
+    ___globalPicked.splice(idx, 1);
+    pickedChangedEvt.dispatch(___globalPicked, "remove", model);
+}
 function pickModel(model, shouldAppend/*default false*/) {
     if (shouldAppend === true) {
         var isAdded = ArrayPushIfNotHas(___globalPicked, model);
         if (isAdded)pickedChangedEvt.dispatch(___globalPicked, "add", model);
     } else {
-        ___globalPicked.forEach(function (picked) {
-            pickedChangedEvt.dispatch(___globalPicked, "remove", picked);
-        });
-        ___globalPicked = [];
+        for (var i = ___globalPicked.length - 1; i >= 0; i--) unpickModel(___globalPicked[i]);
+        console.assert(___globalPicked.length == 0);
         if (model) {
             ___globalPicked.push(model);
             pickedChangedEvt.dispatch(___globalPicked, "add", model);
@@ -32,7 +36,7 @@ function sceneAddModel(model) {
 function sceneRemoveModel(model) {
     var idx = ___globalScene.indexOf(model);
     if (idx == -1)return;
-    ___globalScene.splice(idx, 0);
+    ___globalScene.splice(idx, 1);
     sceneChangedEvt.dispatch(___globalScene, "remove", model);
 }
 function sceneAllModels() {

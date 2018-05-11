@@ -1,5 +1,5 @@
 startupUI([
-    "ui/dialog/sketcher_dialog.xml"
+    "ui/dialog/sketcher/sketcher_dialog.xml"
 ]).then(function () {
     $(".sketcherDialog .main .shape_list .rectArea").on(click, function () {
         System.cmdBegin(new CmdAddRect());
@@ -59,13 +59,20 @@ function popUpSketcherDialogPromise(curves) {
 }
 
 
-function showSketcherSettingBox(model) {
+function showSketcherSettingBox(models) {
     $(".sketcherDialog .sketcherSettingBox").show();
     $(".sketcherDialog .sketcherSettingBox").children().hide();
-    if (!model)return;
-    $(".sketcherDialog .sketcherSettingBox .sketcher" + model.type.toLowerCase()).show();
+    console.assert(models.length > 0);
+    models.forEach(function (model) {
+        $(".sketcherDialog .sketcherSettingBox .sketcher" + model.type.toLowerCase()).show();
+    });
 }
 
 function hideSketcherSettingBox() {
     $(".sketcherDialog .sketcherSettingBox").hide();
 }
+
+pickedChangedEvt.add(function (picks, op, model) {
+    if (picks.length == 0)hideSketcherSettingBox();
+    else showSketcherSettingBox(picks);
+});
