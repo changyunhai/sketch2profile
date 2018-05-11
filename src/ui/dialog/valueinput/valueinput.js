@@ -1,3 +1,9 @@
+startupUI(["ui/dialog/valueinput/valueinput.xml"])
+    .then(function () {
+
+    });
+
+
 function PopupValueInputDialogPromise(title, labelText, defaultValue) {
     return new Promise(function (resolve, reject) {
         function OKClick() {
@@ -28,6 +34,7 @@ function PopupValueInputDialogPromise(title, labelText, defaultValue) {
             },
             end: function () {
                 dialog.find('.OKButton').unbind(click, OKClick);
+                dialog.hide();
             }
         });
     });
