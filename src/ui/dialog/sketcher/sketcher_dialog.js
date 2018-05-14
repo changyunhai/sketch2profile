@@ -191,8 +191,3 @@ function showSketcherSettingBox(models) {
 function hideSketcherSettingBox() {
     $(".sketcherDialog .sketcherSettingBox").hide();
 }
-
-pickedChangedEvt.add(function (picks, op, model) {
-    if (picks.length == 0)hideSketcherSettingBox();
-    else showSketcherSettingBox(picks);
-});
