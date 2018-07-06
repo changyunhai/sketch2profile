@@ -66,16 +66,16 @@ Object.assign(SketcherEditorCurve.prototype, {
             if (!(e instanceof Event))return;
             e.stopPropagation();
             if (e.button == 1)return;
-            var modelPos = view.PS2M(view, x, y);
+            var modelPos = view.PS2M.call(view, x, y);
             var model = this.model;
-            // todo begin command:
+            System.cmdBegin(new CmdSketcherMovePoint(model,modelPos));
         }
 
         function dragPointMove(prop, dx, dy, x, y, e) {
             if (!(e instanceof Event))return;
             e.stopPropagation();
             if (e.button == 1)return;
-            var modelPos = view.PS2M(view, x, y);
+            var modelPos = view.PS2M.call(view, x, y);
             System.cmdExe(e.type, e, modelPos);
         }
 
