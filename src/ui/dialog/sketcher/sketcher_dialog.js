@@ -63,11 +63,14 @@ startupUI([
 
     //--   curve line:
     $(".sketcherDialog .sketcherSettingBox .sketchercurveline .delete").on(click, function () {
-        var model = pickedModels();
-        if (model) {
-
-            layer.alert("尚未完成...");
-        }
+        var models = pickedModels();
+        var lines = models.filter(function(e){
+            return e instanceof CurveLine;
+        });
+        lines.forEach(function(line){
+            sceneRemoveModel(line);
+        });
+      
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurveline .toArc").on(click, function () {
         var lines = pickedModels();
