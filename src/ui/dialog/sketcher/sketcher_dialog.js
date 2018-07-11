@@ -74,11 +74,18 @@ startupUI([
         layer.alert("尚未完成...");
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurveline .split").on(click, function () {
-        var line = pickedModels();
-        var middle = line.middle, end = {x: line.end.x, y: line.end.y};
-        line.end.x = middle.x, line.end.y = middle.y;
-        layer.alert("尚未完成...");
-
+        var models = pickedModels();
+        var lines = models.filter(function(e){
+            return e instanceof CurveLine;
+        });
+        lines.forEach(function(line){
+            var middle = line.middle, end = {x: line.end.x, y: line.end.y};
+            line.end = {x:middle.x,y:middle.y};
+            var newLine = new CurveLine();
+            newLine.begin = {x:middle.x,y:middle.y};
+            newLine.end = end;
+            sceneAddModel(newLine);
+        });
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurveline .merge").on(click, function () {
         layer.alert("尚未完成...");
