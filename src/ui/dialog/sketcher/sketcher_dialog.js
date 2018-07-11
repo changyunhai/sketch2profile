@@ -69,12 +69,25 @@ startupUI([
         });
         lines.forEach(function(line){
             sceneRemoveModel(line);
+            unpickModel(line);
         });
-      
+
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurveline .toArc").on(click, function () {
-        var lines = pickedModels();
-        layer.alert("尚未完成...");
+        var models = pickedModels();
+        var lines = models.filter(function(e){
+            return e instanceof CurveLine;
+        });
+        lines.forEach(function(line){
+            var begin = {x: line.begin.x, y: line.begin.y}, end = {x: line.end.x, y: line.end.y};
+            var curveArc = new CurveArc();
+            curveArc.begin = begin;
+            curveArc.end = end;
+            sceneAddModel(curveArc);
+            sceneRemoveModel(line);
+            unpickModel(line);
+        });
+
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurveline .split").on(click, function () {
         var models = pickedModels();
@@ -88,10 +101,17 @@ startupUI([
             newLine.begin = {x:middle.x,y:middle.y};
             newLine.end = end;
             sceneAddModel(newLine);
+            unpickModel(line);
         });
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurveline .merge").on(click, function () {
-        layer.alert("尚未完成...");
+        var models = pickedModels();
+        var lines = models.filter(function(e){
+            return e instanceof CurveLine;
+        });
+        var allLines = sceneAllModels().filter(function(e){
+            return e instanceof CurveLine;
+        });
     });
 
 
