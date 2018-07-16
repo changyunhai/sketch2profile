@@ -25,7 +25,7 @@ Object.assign(CmdSketcherMovePoint.prototype, {
         }, this);
     },
     end: function () {
-       
+
     },
     exe: function (cmd, evt, position, option) {
 

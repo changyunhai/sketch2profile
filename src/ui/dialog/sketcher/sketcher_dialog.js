@@ -79,13 +79,7 @@ startupUI([
             return e instanceof CurveLine;
         });
         lines.forEach(function(line){
-            var begin = {x: line.begin.x, y: line.begin.y}, end = {x: line.end.x, y: line.end.y};
-            var curveArc = new CurveArc();
-            curveArc.begin = begin;
-            curveArc.end = end;
-            sceneAddModel(curveArc);
-            sceneRemoveModel(line);
-            unpickModel(line);
+            utilSketcherCurveLineToCurveArc(line);
         });
 
     });
@@ -105,13 +99,7 @@ startupUI([
         });
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurveline .merge").on(click, function () {
-        var models = pickedModels();
-        var lines = models.filter(function(e){
-            return e instanceof CurveLine;
-        });
-        var allLines = sceneAllModels().filter(function(e){
-            return e instanceof CurveLine;
-        });
+        utilSketcherMergeCurveLine();
     });
 
 
