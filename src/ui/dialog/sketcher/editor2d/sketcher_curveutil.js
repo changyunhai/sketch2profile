@@ -29,12 +29,15 @@ function utilSketcherFindSamePoints(curve, pt, tol) {
 
 function utilSketcherCurveLineToCurveArc(curveLine) {
     var arc = new CurveArc();
-    arc.begin = curveLine.begin, arc.end = curveLine.end;
-    var radius = Vec2.difference(arc.end, arc.begin).magnitude();
+    arc.begin = {x:curveLine.begin.x,y:curveLine.begin.y} , arc.end = {x:curveLine.end.x,y:curveLine.end.y};
+    var x = curveLine.middle.x, y = curveLine.middle.y;
+    var radius = Vec2.difference(curveLine.end,curveLine.middle).magnitude();
     sceneAddModel(arc);
-    var beginEnd_Mid = {x: (arc.begin.x + arc.end.x) / 2, y: (arc.begin.y + arc.end.y) / 2};
-    var mid = Math2d.GetPerpendicularIntersect(arc.begin, arc.end, 90, Math2d.RotatePointCW(arc.begin, arc.end, 45));
-    arc.mx = mid.x, arc.my = mid.y;
+    arc.bx  = x - radius;
+    arc.ex  = x + radius;
+    arc.by  = arc.ey = y;
+    arc.mx = x;
+    arc.my = y + radius;
     sceneRemoveModel(curveLine);
     unpickModel(curveLine);
     return arc;
