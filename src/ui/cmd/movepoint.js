@@ -51,16 +51,12 @@ Object.assign(CmdSketcherMovePoint.prototype, {
                         }
                     }
                 } else if (field == "begin" || field == "end") {
-                    if (curve.type == "CurveLine") {
-
                         curve[field] = pos;
-                    }
                 }
             }
         }
     }
 });
-
 
 
 
