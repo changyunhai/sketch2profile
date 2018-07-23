@@ -17,7 +17,7 @@ var Math2d = {};
     }
 
     function utilMathPointsMakeNormalize(points, tol) {
-        if (!points)return [];
+        if (!points) return [];
 
         console.assert(points.length > 1, "Error: points length should be >1");
         var tol = tol || 0.02, rv = [];
@@ -30,14 +30,14 @@ var Math2d = {};
         for (var i = 1; i < points.length - 1; ++i) {
             var previous = rv[rv.length - 1], current = points[i], next = points[i + 1];
             console.assert(current && previous && next, "error input points");
-            if ((utilMathIsSamePoint(current, previous, tol)))continue;
+            if ((utilMathIsSamePoint(current, previous, tol))) continue;
 
             var angle1 = utilMathGetAngleHorizontaleCCW(previous, current);
             var angle2 = utilMathGetAngleHorizontaleCCW(current, next);
             //if (utilMathIsSameAngle(angle1, angle2, 5))continue;
             rv.push(current);
         }
-        if (!utilMathIsSamePoint(last, rv[rv.length - 1]))rv.push(last);
+        if (!utilMathIsSamePoint(last, rv[rv.length - 1])) rv.push(last);
         return rv;
     }
 
@@ -46,7 +46,7 @@ var Math2d = {};
     }
 
     function utilMathIsSamePoint(a, b, tolerance) {
-        if (!a || !b)return false;
+        if (!a || !b) return false;
         return utilMathEquals(a.x, b.x, tolerance) && utilMathEquals(a.y, b.y, tolerance);
     }
 
@@ -104,7 +104,7 @@ var Math2d = {};
     }
 
     function utilMathLineLength(start, end) {
-        if (!start || !end)return NaN;
+        if (!start || !end) return NaN;
         var line = new Line(start.x, start.y, end.x, end.y);
         return line.length();
     }
@@ -114,6 +114,10 @@ var Math2d = {};
         var angle2 = utilMathGetAngleHorizontaleCCW(base, to);
         var delta = angle2 - angle1;
         return delta > 0 ? delta : 360 + delta;
+    }
+
+    function ToRadius(fan) {
+        return fan / 180 * Math.PI;
     }
 
     function utilMathIsPointInLineSegment(pt, lineFrom, lineTo, tolerance) {
@@ -145,7 +149,8 @@ var Math2d = {};
         IsLineParallel: utilMathIsLineParallel,
         IsPointInLineSegment: utilMathIsPointInLineSegment,
         GetPerpendicularIntersect: utilMathGetPerpendicularIntersect,
-        PointsMakeNormalize: utilMathPointsMakeNormalize
+        PointsMakeNormalize: utilMathPointsMakeNormalize,
+        ToRadius: ToRadius
     });
 
 })();

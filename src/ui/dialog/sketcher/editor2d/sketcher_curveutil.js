@@ -9,6 +9,19 @@ function utilSketcherCurveLineMoveMiddleRestriction(begin, end, newMiddle) {
     var offset = Math2d.GetScaledPoint(beginEnd_Mid, offsetDirPoint, Math.abs(offsetDistance));
     return {x: offset.x - beginEnd_Mid.x, y: offset.y - beginEnd_Mid.y};
 }
+function utilSketcherCurveArcGetMiddleByFanAngle(begin, end, fan, oldMiddle) {
+    fan = Math2d.ToRadius(fan);
+    var beginEnd_Mid = {x: (begin.x + end.x) / 2, y: (begin.y + end.y) / 2};
+    var minRadius = Math2d.LineLength(beginEnd_Mid, begin);
+    var h = minRadius * (1 - Math.cos(fan / 2)) / Math.sin(fan / 2);
+    var m1 = Math2d.GetScaledPoint(beginEnd_Mid, Math2d.RotatePointCW(beginEnd_Mid, begin, 90), h);
+    var m2 = Math2d.GetScaledPoint(beginEnd_Mid, Math2d.RotatePointCW(beginEnd_Mid, begin, -90), h);
+    var m = Math2d.LineLength(m1, oldMiddle) > Math2d.LineLength(m2, oldMiddle) ? m2 : m1;
+    console.log("fan=" + fan + ",h=" + h + ",minR=" + minRadius +
+        ",middle=[" + m.x + "," + m.y + "],beginEndMid=[" + beginEnd_Mid.x + "," + beginEnd_Mid.y + "]");
+    return m;
+}
+
 
 
 function utilSketcherFindSamePoints(curve, pt, tol) {
@@ -33,11 +46,8 @@ function utilSketcherCurveLineToCurveArc(curveLine) {
     var x = curveLine.middle.x, y = curveLine.middle.y;
     var radius = Vec2.difference(curveLine.end,curveLine.middle).magnitude();
     sceneAddModel(arc);
-    arc.bx  = x - radius;
-    arc.ex  = x + radius;
-    arc.by  = arc.ey = y;
-    arc.mx = x;
-    arc.my = y + radius;
+    var mid = utilSketcherCurveArcGetMiddleByFanAngle(arc.begin, arc.end, 90, Math2d.RotatePointCW(arc.begin, arc.end, 45));
+    arc.mx = mid.x, arc.my = mid.y;
     sceneRemoveModel(curveLine);
     unpickModel(curveLine);
     return arc;
