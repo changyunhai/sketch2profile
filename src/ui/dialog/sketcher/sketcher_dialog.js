@@ -112,7 +112,14 @@ startupUI([
         }
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .toLine").on(click, function () {
-        layer.alert("尚未完成...");
+        var models = pickedModels();
+        var arcs = models.filter(function(e){
+            return e instanceof CurveArc;
+        });
+        arcs.forEach(function(arc){
+            utilSketcherCurveArcToCurveLine(arc);
+        });
+
 
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .toHalfArc").on(click, function () {

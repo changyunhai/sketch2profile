@@ -122,3 +122,12 @@ function utilSketcherMergeCurveLine(){
         });
     }
 }
+
+function utilSketcherCurveArcToCurveLine(arc){
+    var line = new CurveLine();
+    line.begin = {x:arc.begin.x,y:arc.begin.y} , line.end = {x:arc.end.x,y:arc.end.y};
+    sceneAddModel(line);
+    sceneRemoveModel(arc);
+    unpickModel(arc);
+    return line;
+}
