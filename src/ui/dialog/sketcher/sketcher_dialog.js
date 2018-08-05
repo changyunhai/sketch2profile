@@ -105,11 +105,14 @@ startupUI([
 
     //----  curve arc:
     $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .delete").on(click, function () {
-        var model = pickedModels();
-        if (model) {
-            layer.alert("尚未完成...");
-
-        }
+        var models = pickedModels();
+        var arcs = models.filter(function(e){
+            return e instanceof CurveArc;
+        });
+        arcs.forEach(function(arc){
+            sceneRemoveModel(arc);
+            unpickModel(arc);
+        });
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .toLine").on(click, function () {
         var models = pickedModels();
@@ -123,28 +126,41 @@ startupUI([
 
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .toHalfArc").on(click, function () {
-        var arc = pickedModels();
-        var mid = {x: 0, y: 0};
-        layer.alert("尚未完成...");
-        arc.mx = mid.x, arc.my = mid.y;
+        var models = pickedModels();
+        var arcs = models.filter(function(e){
+            return e instanceof CurveArc;
+        });
+        arcs.forEach(function(arc){
+            var mid = utilSketcherCurveArcGetMiddleByFanAngle(arc.begin, arc.end, 180, arc.middle);
+            arc.mx = mid.x, arc.my = mid.y;
+        });
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .toQuarterArc").on(click, function () {
-        var arc = pickedModels();
-        var mid = {x: 0, y: 0};
-        layer.alert("尚未完成...");
-        arc.mx = mid.x, arc.my = mid.y;
+        var models = pickedModels();
+        var arcs = models.filter(function(e){
+            return e instanceof CurveArc;
+        });
+        arcs.forEach(function(arc){
+            var mid = utilSketcherCurveArcGetMiddleByFanAngle(arc.begin, arc.end, 90, arc.middle);
+            arc.mx = mid.x, arc.my = mid.y;
+        });
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .toAngledArc").on(click, function () {
-        var arc = pickedModels();
+        var models = pickedModels();
+        var arcs = models.filter(function(e){
+            return e instanceof CurveArc;
+        });
         PopupValueInputDialogPromise("圆心角值", "请输入圆心角角度值(0~360)：", 90)
             .then(function (angle) {
                 angle = parseFloat(angle);
                 if (!isFinite(angle) || angle < 0 || angle > 360) {
                     return layer.alert("无效的圆心角度");
                 }
-                var mid = {x: 0, y: 0};
-                layer.alert("尚未完成...");
-                arc.mx = mid.x, arc.my = mid.y;
+                arcs.forEach(function(arc){
+                    var mid = utilSketcherCurveArcGetMiddleByFanAngle(arc.begin, arc.end, angle, arc.middle);
+                    arc.mx = mid.x, arc.my = mid.y;
+                });
+
             });
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .split").on(click, function () {
@@ -154,11 +170,16 @@ startupUI([
         layer.alert("尚未完成...");
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .flip").on(click, function () {
-        var arc = pickedModels();
-        var begin = arc.begin, end = arc.end, mid = arc.middle;
-        var beginEnd_Mid = {x: (begin.x + end.x) / 2, y: (begin.y + end.y) / 2};
-        arc.mx = beginEnd_Mid.x * 2 - mid.x, arc.my = beginEnd_Mid.y * 2 - mid.y;
-        layer.alert("尚未完成...");
+        var models = pickedModels();
+        var arcs = models.filter(function(e){
+            return e instanceof CurveArc;
+        });
+        arcs.forEach(function(arc){
+            var begin = arc.begin, end = arc.end, mid = arc.middle;
+            var beginEnd_Mid = {x: (begin.x + end.x) / 2, y: (begin.y + end.y) / 2};
+            arc.mx = beginEnd_Mid.x * 2 - mid.x, arc.my = beginEnd_Mid.y * 2 - mid.y;
+        });
+
     });
 
 });
