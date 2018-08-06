@@ -25,10 +25,10 @@ Object.assign(CmdSketcherMovePoint.prototype, {
         }, this);
     },
     end: function () {
-
+        buildArea();
     },
     exe: function (cmd, evt, position, option) {
-
+        
         if (cmd.indexOf("mousemove") != -1) {
             var pos = position, model = this.model, tol = 0.05;
             for (var i = 0, len = (this.pointsInfo && this.pointsInfo.length) || 0; i < len; ++i) {
