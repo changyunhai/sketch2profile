@@ -194,7 +194,20 @@ startupUI([
             });
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .split").on(click, function () {
-        layer.alert("尚未完成...");
+        var models = pickedModels();
+        var arcs = models.filter(function(e){
+            return e instanceof CurveArc;
+        });
+        arcs.forEach(function(arc){
+            var begin = arc.begin,end = arc.end,middle = arc.middle,center = arc.center;
+            arc.end = {x:middle.x,y:middle.y};
+            arc.center = center;
+            var newArc = new CurveArc();
+            newArc.begin = {x:middle.x,y:middle.y} , newArc.end = {x:end.x,y:end.y};
+            newArc.center = center;
+            sceneAddModel(newArc);
+            unpickModel(arc);
+        });
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .merge").on(click, function () {
         layer.alert("尚未完成...");
