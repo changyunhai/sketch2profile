@@ -22,6 +22,7 @@ startupUI([
         });
         if(!isTwo || !allIsLine){
             layer.alert("请选择两条直线！");
+            return;
         }
         var oneLine = models[0],twoLine = models[1];
         if(Math2d.IsSamePoint(oneLine.begin,twoLine.begin,0.01)){
@@ -244,7 +245,53 @@ startupUI([
         });
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .merge").on(click, function () {
-        layer.alert("尚未完成...");
+        var models = pickedModels();
+        var isTwo = models.length == 2;
+        var theSamePoint,arcBegin,arcEnd;
+        var allIsArc = models.every(function(model){
+            return model instanceof CurveArc;
+        });
+        if(!isTwo || !allIsArc){
+            layer.alert("请选择两条圆弧！");
+            return;
+        }
+        var oneArc = models[0],twoArc = models[1];
+        if(!Math2d.IsSamePoint(oneArc.center,twoArc.center,0.01)){
+            layer.alert("请选择同心圆！");
+            return;
+        }
+        if(Math2d.IsSamePoint(oneArc.begin,twoArc.begin,0.01)){
+            theSamePoint = oneArc.begin;
+            arcBegin = oneArc.end;
+            arcEnd = twoArc.end;
+        }else if(Math2d.IsSamePoint(oneArc.begin,twoArc.end,0.01)){
+            theSamePoint = oneArc.begin;
+            arcBegin = oneArc.end;
+            arcEnd = twoArc.begin;
+        }else if(Math2d.IsSamePoint(oneArc.end,twoArc.begin,0.01)){
+            theSamePoint =oneArc.end;
+            arcBegin = oneArc.begin;
+            arcEnd = twoArc.end;
+        }else if(Math2d.IsSamePoint(oneArc.end,twoArc.end,0.01)){
+            theSamePoint = oneArc.end;
+            arcBegin = oneArc.begin;
+            arcEnd = twoArc.begin;
+        }
+        if(theSamePoint){
+            var arc = new CurveArc();
+            arc.begin = arcBegin;
+            arc.end = arcEnd;
+            sceneAddModel(arc);
+            var mid = utilSketcherCurveArcGetMiddleByFanAngle(arcBegin, arcEnd, oneArc.fan + twoArc.fan, theSamePoint);
+            arc.mx = mid.x;
+            arc.my = mid.y;
+            models.forEach(function(model){
+                sceneRemoveModel(model);
+                unpickModel(model);
+            });
+        }else{
+            layer.alert("请确保两条圆弧相邻！");
+        }
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .flip").on(click, function () {
         var models = pickedModels();
