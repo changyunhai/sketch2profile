@@ -150,7 +150,8 @@ var Math2d = {};
         IsPointInLineSegment: utilMathIsPointInLineSegment,
         GetPerpendicularIntersect: utilMathGetPerpendicularIntersect,
         PointsMakeNormalize: utilMathPointsMakeNormalize,
-        ToRadius: ToRadius
+        ToRadius: ToRadius,
+        utilMathToDegree:utilMathToDegree
     });
 
 })();

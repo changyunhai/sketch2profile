@@ -88,6 +88,7 @@
                 </div>
                 <div class="item">
                     <input type="button" class="toAngledArc" value="设圆心角"/>
+                    <input type="button" class="toRadiusArc" value="设圆半径"/>
                 </div>
             </div>
         </div>

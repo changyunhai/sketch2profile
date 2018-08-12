@@ -14,8 +14,19 @@ startupUI([
     });
 
     $(".sketcherDialog .main .shape_list .fillet").on(click, function () {
-        layer.alert("尚未完成...");
-        return;
+        var models = pickedModels();
+        var isTwo = models.length == 2;
+        var allIsLine = models.every(function(model){
+            return model instanceof CurveLine;
+        });
+        if(isTwo && allIsLine){
+
+        }
+        PopupValueInputDialogPromise("圆弧半径", "请输入圆弧的半径：", 1)
+            .then(function (radius) {
+
+
+            });
     });
 
 
@@ -158,6 +169,25 @@ startupUI([
                 }
                 arcs.forEach(function(arc){
                     var mid = utilSketcherCurveArcGetMiddleByFanAngle(arc.begin, arc.end, angle, arc.middle);
+                    arc.mx = mid.x, arc.my = mid.y;
+                });
+
+            });
+    });
+    $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .toRadiusArc").on(click, function () {
+        var models = pickedModels();
+        var arcs = models.filter(function(e){
+            return e instanceof CurveArc;
+        });
+        PopupValueInputDialogPromise("圆弧半径", "请输入圆弧的半径：", 1)
+            .then(function (radius) {
+                arcs.forEach(function(arc){
+                    var begin = arc.begin,end = arc.end;
+                    var beginEnd_Mid = {x: (begin.x + end.x) / 2, y: (begin.y + end.y) / 2};
+                    var minRadius = Math2d.LineLength(beginEnd_Mid, begin);
+                    if(radius < minRadius) return false;
+                    var angle = Math2d.utilMathToDegree(Math.asin(minRadius/radius)) * 2;
+                    var mid = utilSketcherCurveArcGetMiddleByFanAngle(begin, end, angle, arc.middle);
                     arc.mx = mid.x, arc.my = mid.y;
                 });
 
