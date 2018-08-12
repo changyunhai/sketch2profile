@@ -16,17 +16,51 @@ startupUI([
     $(".sketcherDialog .main .shape_list .fillet").on(click, function () {
         var models = pickedModels();
         var isTwo = models.length == 2;
+        var theSamePoint,arcBegin,arcEnd;
         var allIsLine = models.every(function(model){
             return model instanceof CurveLine;
         });
-        if(isTwo && allIsLine){
-
+        if(!isTwo || !allIsLine){
+            layer.alert("请选择两条直线！");
         }
-        PopupValueInputDialogPromise("圆弧半径", "请输入圆弧的半径：", 1)
-            .then(function (radius) {
+        var oneLine = models[0],twoLine = models[1];
+        if(Math2d.IsSamePoint(oneLine.begin,twoLine.begin,0.01)){
+            theSamePoint = oneLine.begin;
+            arcBegin = Math2d.GetScaledPoint(oneLine.begin,oneLine.end,0.2);
+            arcEnd = Math2d.GetScaledPoint(twoLine.begin,twoLine.begin,0.2);
+            oneLine.begin = arcBegin;
+            twoLine.begin = arcEnd;
+        }else if(Math2d.IsSamePoint(oneLine.begin,twoLine.end,0.01)){
+            theSamePoint = oneLine.begin;
+            arcBegin = Math2d.GetScaledPoint(oneLine.begin,oneLine.end,0.2);
+            arcEnd = Math2d.GetScaledPoint(twoLine.end,twoLine.begin,0.2);
+            oneLine.begin = arcBegin;
+            twoLine.end = arcEnd;
+        }else if(Math2d.IsSamePoint(oneLine.end,twoLine.begin,0.01)){
+            theSamePoint =oneLine.end;
+            arcBegin = Math2d.GetScaledPoint(oneLine.end,oneLine.begin,0.2);
+            arcEnd = Math2d.GetScaledPoint(twoLine.begin,twoLine.end,0.2);
+            oneLine.end = arcBegin;
+            twoLine.begin = arcEnd;
+        }else if(Math2d.IsSamePoint(oneLine.end,twoLine.end,0.01)){
+            theSamePoint = oneLine.end;
+            arcBegin = Math2d.GetScaledPoint(oneLine.end,oneLine.begin,0.2);
+            arcEnd = Math2d.GetScaledPoint(twoLine.end,twoLine.begin,0.2);
+            oneLine.end = arcBegin;
+            twoLine.end = arcEnd;
+        }
+        if(theSamePoint){
+            var arc = new CurveArc();
+            arc.begin = arcBegin;
+            arc.end = arcEnd;
+            sceneAddModel(arc);
+            var mid = utilSketcherCurveArcGetMiddleByFanAngle(arc.begin, arc.end, 90, Math2d.RotatePointCW(arc.begin, arc.end, 45));
+            arc.mx = mid.x;
+            arc.my = mid.y;
+        }else{
+            layer.alert("请确保两条直线相邻！");
+        }
 
-
-            });
     });
 
 
