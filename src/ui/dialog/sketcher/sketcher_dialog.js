@@ -278,6 +278,13 @@ startupUI([
             arcEnd = twoArc.begin;
         }
         if(theSamePoint){
+            var arcs = models.filter(function(e){
+                return e instanceof CurveArc;
+            });
+            arcs.forEach(function(arc){
+                sceneRemoveModel(arc);
+                unpickModel(arc);
+            });
             var arc = new CurveArc();
             arc.begin = arcBegin;
             arc.end = arcEnd;
@@ -285,10 +292,6 @@ startupUI([
             var mid = utilSketcherCurveArcGetMiddleByFanAngle(arcBegin, arcEnd, oneArc.fan + twoArc.fan, theSamePoint);
             arc.mx = mid.x;
             arc.my = mid.y;
-            models.forEach(function(model){
-                sceneRemoveModel(model);
-                unpickModel(model);
-            });
         }else{
             layer.alert("请确保两条圆弧相邻！");
         }
