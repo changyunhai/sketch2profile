@@ -57,6 +57,9 @@ Object.assign(SketcherEditorCanvas.prototype, {
             this.viewBound.addPoint(model.begin);
             this.viewBound.addPoint(model.end);
         }, this);
+    },
+    fitByZoom:function(view){
+        var factor = view.viewport.width / view.initViewport.width;
     }
 });
 

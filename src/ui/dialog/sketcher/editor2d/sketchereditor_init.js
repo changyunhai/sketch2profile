@@ -5,6 +5,9 @@ function initSketcherEditor() {
     var dom = document.getElementById("sketcherEditDialogSvg");
     var canvas = SketcherEditor_svg = new SketcherEditorCanvas(dom, {name: "SketcherEditor"});
     sceneChangedEvt.add(sceneChangeEvtHandler);
+    SketcherEditor_svg.zoomChangedEvent.add(function (view, viewport, factor, totalFactor) {
+        sceneChangedEvt.fitByZoom(view);
+    });
 }
 
 function sketcherEditorCreateViewObject(view, model) {

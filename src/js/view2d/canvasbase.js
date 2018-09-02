@@ -8,6 +8,7 @@ function View2dCanvasBase(dom, opt) {
 
     this.layers = {};
     this.layersOrder = [];
+    this.zoomChangedEvent = new signals.Signal();
 }
 Object.assign(View2dCanvasBase.prototype, {
     init: function () {
@@ -82,7 +83,7 @@ Object.assign(View2dCanvasBase.prototype, {
         this.viewport.left += 100 * (ptOldModelPt.x - ptNewModelPt.x);
         this.viewport.top += -100 * (ptOldModelPt.y - ptNewModelPt.y);
         this.context.attr("viewBox", this.viewport.left + "," + this.viewport.top + "," + this.viewport.width + "," + this.viewport.height);
-
+        this.zoomChangedEvent && this.zoomChangedEvent.dispatch(this, this.viewport, factor, this.viewport.width / this.initViewport.width);
     },
     pan: function (delta) {
         var mPosOffset = this.VS2M(delta.x, delta.y);
