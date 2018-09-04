@@ -58,6 +58,7 @@ startupUI([
             var mid = utilSketcherCurveArcGetMiddleByFanAngle(arc.begin, arc.end, 90, Math2d.RotatePointCW(arc.begin, arc.end, 45));
             arc.mx = mid.x;
             arc.my = mid.y;
+            buildArea();
         }else{
             layer.alert("请确保两条直线相邻！");
         }
@@ -117,7 +118,7 @@ startupUI([
             sceneRemoveModel(line);
             unpickModel(line);
         });
-
+        buildArea();
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurveline .toArc").on(click, function () {
         var models = pickedModels();
@@ -127,7 +128,7 @@ startupUI([
         lines.forEach(function(line){
             utilSketcherCurveLineToCurveArc(line);
         });
-
+        buildArea();
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurveline .split").on(click, function () {
         var models = pickedModels();
@@ -143,9 +144,11 @@ startupUI([
             sceneAddModel(newLine);
             unpickModel(line);
         });
+        buildArea();
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurveline .merge").on(click, function () {
         utilSketcherMergeCurveLine();
+        buildArea();
     });
 
 
@@ -159,6 +162,7 @@ startupUI([
             sceneRemoveModel(arc);
             unpickModel(arc);
         });
+        buildArea();
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .toLine").on(click, function () {
         var models = pickedModels();
@@ -168,7 +172,7 @@ startupUI([
         arcs.forEach(function(arc){
             utilSketcherCurveArcToCurveLine(arc);
         });
-
+        buildArea();
 
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .toHalfArc").on(click, function () {
@@ -180,6 +184,7 @@ startupUI([
             var mid = utilSketcherCurveArcGetMiddleByFanAngle(arc.begin, arc.end, 180, arc.middle);
             arc.mx = mid.x, arc.my = mid.y;
         });
+        buildArea();
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .toQuarterArc").on(click, function () {
         var models = pickedModels();
@@ -190,6 +195,7 @@ startupUI([
             var mid = utilSketcherCurveArcGetMiddleByFanAngle(arc.begin, arc.end, 90, arc.middle);
             arc.mx = mid.x, arc.my = mid.y;
         });
+        buildArea();
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .toAngledArc").on(click, function () {
         var models = pickedModels();
@@ -206,7 +212,7 @@ startupUI([
                     var mid = utilSketcherCurveArcGetMiddleByFanAngle(arc.begin, arc.end, angle, arc.middle);
                     arc.mx = mid.x, arc.my = mid.y;
                 });
-
+                buildArea();
             });
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .toRadiusArc").on(click, function () {
@@ -225,7 +231,7 @@ startupUI([
                     var mid = utilSketcherCurveArcGetMiddleByFanAngle(begin, end, angle, arc.middle);
                     arc.mx = mid.x, arc.my = mid.y;
                 });
-
+                buildArea();
             });
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .split").on(click, function () {
@@ -243,6 +249,7 @@ startupUI([
             sceneAddModel(newArc);
             unpickModel(arc);
         });
+        buildArea();
     });
     $(".sketcherDialog .sketcherSettingBox .sketchercurvearc .merge").on(click, function () {
         var models = pickedModels();
@@ -292,6 +299,7 @@ startupUI([
             var mid = utilSketcherCurveArcGetMiddleByFanAngle(arcBegin, arcEnd, oneArc.fan + twoArc.fan, theSamePoint);
             arc.mx = mid.x;
             arc.my = mid.y;
+            buildArea();
         }else{
             layer.alert("请确保两条圆弧相邻！");
         }
@@ -306,7 +314,7 @@ startupUI([
             var beginEnd_Mid = {x: (begin.x + end.x) / 2, y: (begin.y + end.y) / 2};
             arc.mx = beginEnd_Mid.x * 2 - mid.x, arc.my = beginEnd_Mid.y * 2 - mid.y;
         });
-
+        buildArea();
     });
 
 });
