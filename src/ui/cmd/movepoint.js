@@ -30,7 +30,8 @@ Object.assign(CmdSketcherMovePoint.prototype, {
     exe: function (cmd, evt, position, option) {
         
         if (cmd.indexOf("mousemove") != -1) {
-            var pos = position, model = this.model, tol = 0.05;
+            var factor = SketcherEditor_svg.viewport.width / SketcherEditor_svg.initViewport.width;
+            var pos = position, model = this.model, tol = 0.05 * Math.min(factor,1);
             for (var i = 0, len = (this.pointsInfo && this.pointsInfo.length) || 0; i < len; ++i) {
                 var pointInfo = this.pointsInfo[i];
                 var field = pointInfo && pointInfo.field, curve = pointInfo && pointInfo.curve;

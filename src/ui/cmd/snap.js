@@ -28,7 +28,9 @@ Object.assign(CmdSnap.prototype, {
     },
     snapPoint: function (pt) {
         var snapPt = this.snappedPoints.find(function (spt) {
-            return Math2d.IsSamePoint(pt, spt, 0.15);
+            var factor = SketcherEditor_svg.viewport.width / SketcherEditor_svg.initViewport.width;
+            var tol = 0.15 * Math.min(factor,1);
+            return Math2d.IsSamePoint(pt, spt, tol);
         });
         if (!snapPt) {
             // todo snap to curve:
