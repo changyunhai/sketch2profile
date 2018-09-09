@@ -15,7 +15,6 @@ Object.assign(SketcherEditorCurve.prototype, {
         var view = this.view;
         var model = this.model;
         console.assert(view);
-
         var path = this.path = context.path().attr({
             fill: "none", display: "none",
             "stroke-width": SketcherEditorCurve.UNPICKED_DISPLAY_STROKE_WIDTH,
@@ -96,10 +95,16 @@ Object.assign(SketcherEditorCurve.prototype, {
         }
 
         this.pathMask.click(curveClick.bind(this)).mouseover(function (e) {
-            this.path.attr({"stroke-width": SketcherEditorCurve.PICKED_DISPLAY_STROKE_WIDTH});
+            this.path.attr({"stroke-width":(function(){
+                    var factor = SketcherEditor_svg.viewport.width / SketcherEditor_svg.initViewport.width;
+                    return SketcherEditorCurve.PICKED_DISPLAY_STROKE_WIDTH * Math.min(factor,1);
+                })()});
             this.path.mousein = true;
         }.bind(this)).mouseout(function (e) {
-            this.path.attr({"stroke-width": SketcherEditorCurve.UNPICKED_DISPLAY_STROKE_WIDTH});
+            this.path.attr({"stroke-width": (function(){
+                    var factor = SketcherEditor_svg.viewport.width / SketcherEditor_svg.initViewport.width;
+                    return SketcherEditorCurve.UNPICKED_DISPLAY_STROKE_WIDTH * Math.min(factor,1);
+                })()});
             this.path.mousein = false;
         }.bind(this));
         this.middle.drag(dragPointMove.bind(this, "middle"), dragPointDown.bind(this, "middle"), dragPointUp.bind(this, "middle"), this, this, this);
@@ -132,7 +137,11 @@ Object.assign(SketcherEditorCurve.prototype, {
             path: pathStr,
             did: curve.id,
             stroke: (highlight ? "darkblue" : "blue"),
-            "stroke-width": (highlight ? SketcherEditorCurve.PICKED_DISPLAY_STROKE_WIDTH : SketcherEditorCurve.UNPICKED_DISPLAY_STROKE_WIDTH)
+            "stroke-width":(function(){
+                var factor = SketcherEditor_svg.viewport.width / (SketcherEditor_svg.initViewport ? SketcherEditor_svg.initViewport.width : SketcherEditor_svg.viewport.width);
+                return (highlight ? SketcherEditorCurve.PICKED_DISPLAY_STROKE_WIDTH *Math.min(factor,1)
+                    : SketcherEditorCurve.UNPICKED_DISPLAY_STROKE_WIDTH) * Math.min(factor,1);
+            })()
         });
         this.begin.attr({display: (highlight ? "block" : "none"), cx: curve.begin.x * f, cy: curve.begin.y * -f});
         this.end.attr({display: (highlight ? "block" : "none"), cx: curve.end.x * f, cy: curve.end.y * -f});

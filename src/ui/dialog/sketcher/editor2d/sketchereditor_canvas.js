@@ -60,6 +60,13 @@ Object.assign(SketcherEditorCanvas.prototype, {
     },
     fitByZoom:function(view){
         var factor = view.viewport.width / view.initViewport.width;
+        Object.keys(this.layers.CURVES).forEach(function(key){
+            if(this.layers.CURVES[key].type == "path"){
+                this.layers.CURVES[key].attr("stroke-width",SketcherEditorCurve.PICKED_DISPLAY_STROKE_WIDTH * Math.min(factor,1));
+            }else if(this.layers.CURVES[key].type == "circle"){
+                this.layers.CURVES[key].attr("r",7 * Math.min(factor,1));
+            }
+        },this);
     }
 });
 
