@@ -110,6 +110,7 @@ var sketch2profile = (function () {
 
     function BL() {
         buildMCUED();
+        reloadCurve();
         removeDupEd();
         var dupEd = ED, mcued = MCUED;// unused.
 
@@ -217,6 +218,16 @@ var sketch2profile = (function () {
         return e;
     }
 
+    function reloadCurve(){
+        CURVES.forEach(function(curve){
+            sceneRemoveModel(curve);
+            unpickModel(curve);
+        });
+        Object.keys(MCUED).forEach(function(key){
+            sceneAddModel(MCUED[key]);
+        });
+    }
+
     function makeManStr() {
         function findNonManEd() {
             // if find one, return the ed id, and stop search.
@@ -298,6 +309,8 @@ var sketch2profile = (function () {
         } while (walkEd && ided(startV) != startVId);
         return profile;
     }
+
+
 
 
     return {INIT: INIT, BE: BE, BL: BL};
