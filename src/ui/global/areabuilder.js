@@ -17,13 +17,54 @@ function buildArea() {
         var vertices = loop.v.map(function (pt) {
             return {x: pt.x, y: pt.y};
         });
-        var area = areas[loopsIdx++];
-        if (!area) {
-            area = new Loop();
-            sceneAddModel(area);
-        }
+
+
+           var  area = new Loop();
+           sceneAddModel(area);
+
         area.curves = loop.nc;
+        //匹配相同区域
+        var sameArea = areas.find(function(item){
+            var lines = item.curves.filter(function(e){
+                return e instanceof CurveLine;
+            });
+            var arcs = item.curves.filter(function(e){
+                return e instanceof CurveArc;
+            });
+            var newLines = loop.nc.filter(function(e){
+                return e instanceof CurveLine;
+            });
+            var newArcs = loop.nc.filter(function(e){
+                return e instanceof CurveArc;
+            });
+            if(lines.length == newLines.length && arcs.length == newArcs.length){
+                var lineIsSame = newLines.every(function(newline){
+                    return lines.some(function(oldline){
+                        return (Math2d.IsSamePoint(newline.begin,oldline.begin) && Math2d.IsSamePoint(newline.end,oldline.end)) ||
+                            (Math2d.IsSamePoint(newline.end,oldline.begin) && Math2d.IsSamePoint(newline.begin,oldline.end));
+                    });
+                });
+                var arcIsSame = newArcs.every(function(newArc){
+                    return arcs.some(function(oldArc){
+                        return (Math2d.IsSamePoint(newArc.begin,oldArc.begin) && Math2d.IsSamePoint(newArc.end,oldArc.end) && Math2d.IsSamePoint(newArc.center,oldArc.center)) ||
+                            (Math2d.IsSamePoint(newArc.end,oldArc.begin) && Math2d.IsSamePoint(newArc.begin,oldArc.end) && Math2d.IsSamePoint(newArc.center,oldArc.center));
+                    });
+                });
+
+                if(newLines.length == 0){
+                    lineIsSame = true;
+                }
+                if(newArcs.length == 0){
+                    arcIsSame = true;
+                }
+                return arcIsSame && lineIsSame;
+            }
+        });
+        if(sameArea){
+            area.id = sameArea.id;
+        }
     }
+
     for (var i = loopsIdx; i < areas.length; ++i) {
         var area = areas[i];
         sceneRemoveModel(area);
