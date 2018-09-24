@@ -16,7 +16,7 @@ Object.assign(SketcherEditorLoop.prototype, {
             stroke: "none",
             "stroke-width": 3,
             "fill": "white",
-            "fill-opacity": 0.1,
+            "fill-opacity": 0.8,
             "stroke-opacity": 0.5,
             //cursor: "move",
             did: this.id
@@ -48,7 +48,7 @@ Object.assign(SketcherEditorLoop.prototype, {
         this.path.attr({
             display: "block",
             path: pathStr,
-            "fill": (highlight ? "yellow" : "lightyellow")
+            "fill": (highlight ? "lightyellow" : "#d3d3d3")
         });
     }
 });
