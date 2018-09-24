@@ -1,6 +1,7 @@
 function Loop(opt) {
     CS(this, opt);
     defineValue(this, "curves", []);
+    defineValue(this, "containLoops",[]);
 }
 Loop.prototype.type = "Loop";
 CE(Loop, Entity);

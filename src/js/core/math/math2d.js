@@ -135,6 +135,14 @@ var Math2d = {};
             Math.max(lerpFrom.y, lerpTo.y) >= closestPt.y;
     }
 
+    function utilMathIsPointInPoly(poly,point){
+        if (!poly || poly.length < 3) return !1;
+        for (var i = !1, n = -1, r = poly.length, o = r - 1; ++n < r; o = n){
+            (poly[n].y <= point.y && point.y < poly[o].y || poly[o].y <= point.y && point.y < poly[n].y) && point.x < (poly[o].x - poly[n].x) * (point.y - poly[n].y) / (poly[o].y - poly[n].y) + poly[n].x && (i = !i);
+        }
+        return i
+    }
+
     Object.assign(Math2d, {
         Equals: utilMathEquals,
         IsSamePoint: utilMathIsSamePoint,
@@ -151,7 +159,8 @@ var Math2d = {};
         GetPerpendicularIntersect: utilMathGetPerpendicularIntersect,
         PointsMakeNormalize: utilMathPointsMakeNormalize,
         ToRadius: ToRadius,
-        utilMathToDegree:utilMathToDegree
+        utilMathToDegree:utilMathToDegree,
+        IsPointInPoly:utilMathIsPointInPoly
     });
 
 })();
