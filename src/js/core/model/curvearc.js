@@ -203,7 +203,18 @@ function utilCurveArcArcIntersect(arc1, arc2) {
 
     if (d > r1 + r2)return [];
     else if (Math2d.Equals(d, 0)) {
-        if (Math2d.Equals(r1, r2))return [arc1.begin, arc1.end];
+        if (Math2d.Equals(r1, r2)){
+            if(Math2d.IsSamePoint(arc1.begin,arc2.begin)){
+                return [arc1.begin];
+            }else if(Math2d.IsSamePoint(arc1.end,arc2.end)){
+                return [arc1.end];
+            }else if(Math2d.IsSamePoint(arc1.begin,arc2.end)){
+                return [arc1.begin];
+            }else if(Math2d.IsSamePoint(arc1.end,arc2.begin)){
+                return [arc1.end];
+            }
+            return [];
+        }
         else return [];
     } else if (Math2d.Equals(d, Math.abs(r1 - r2))) {//tangential
         var tangency = Math2d.GetScaledPoint(r1 > r2 ? c1 : c2, r1 > r2 ? c2 : c1, r1 > r2 ? r1 : r2);
