@@ -69,4 +69,35 @@ function buildArea() {
         var area = areas[i];
         sceneRemoveModel(area);
     }
+
+    var newAreas = models.filter(function (entity) {
+        return entity instanceof Loop;
+    });
+
+    newAreas.forEach(function(area){
+        var polygon = area.getPolygon();
+        newAreas.forEach(function(otherArea){
+            if(area == otherArea ) return;
+            var otherPolygon = otherArea.getPolygon();
+            var isInPolygon = otherPolygon.every(function(point){
+                 return  Math2d.IsPointInPoly(polygon, point);
+            });
+            isInPolygon && area.containLoops.push(otherArea);
+        });
+    });
+
+    newAreas.forEach(function(area){
+        var removeLoop = [];
+        area.containLoops.forEach(function(loop){
+            area.containLoops.forEach(function(otherLoop){
+                if(otherLoop.containLoops.includes(loop)){
+                    removeLoop.push(loop);
+                }
+            });
+        });
+        removeLoop.forEach(function(loop){
+            var index = area.containLoops.indexOf(loop);
+            area.containLoops.splice(index,1);
+        });
+    });
 }
