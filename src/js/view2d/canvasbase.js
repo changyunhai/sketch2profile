@@ -3,7 +3,7 @@ function View2dCanvasBase(dom, opt) {
     this.opt = opt;
 
     this.viewport = undefined;
-    this.initViewport = undefined;
+    this.initViewport = {width:1,height:1};
     this.context = undefined;
 
     this.layers = {};
