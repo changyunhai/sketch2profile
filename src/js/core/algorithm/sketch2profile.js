@@ -177,6 +177,7 @@ var sketch2profile = (function () {
             var e = ED[eid];
             var oldC = findModel(e.c);
             var mcued = oldC.clone();
+            mcued.oId = oldC.id;
             var begin = VE[e.v1], end = VE[e.v2], middle = VE[e.mid];
             mcued.begin = begin, mcued.end = end;
             if (oldC.center)mcued.center = oldC.center;
