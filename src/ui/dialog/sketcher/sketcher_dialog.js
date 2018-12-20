@@ -127,7 +127,6 @@ startupUI([
         });
         lines.forEach(function(line){
             var arc = utilSketcherCurveLineToCurveArc(line);
-            arc.id = line.id;
         });
         buildArea();
     });
@@ -173,7 +172,6 @@ startupUI([
         });
         arcs.forEach(function(arc){
             var line = utilSketcherCurveArcToCurveLine(arc);
-            line.id = arc.id;
         });
         buildArea();
 

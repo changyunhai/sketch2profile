@@ -45,6 +45,7 @@ function utilSketcherCurveLineToCurveArc(curveLine) {
     arc.begin = {x:curveLine.begin.x,y:curveLine.begin.y} , arc.end = {x:curveLine.end.x,y:curveLine.end.y};
     var x = curveLine.middle.x, y = curveLine.middle.y;
     var radius = Vec2.difference(curveLine.end,curveLine.middle).magnitude();
+    arc.id = curveLine.id;
     sceneAddModel(arc);
     var mid = utilSketcherCurveArcGetMiddleByFanAngle(arc.begin, arc.end, 90, Math2d.RotatePointCW(arc.begin, arc.end, 45));
     arc.mx = mid.x, arc.my = mid.y;
@@ -126,6 +127,7 @@ function utilSketcherMergeCurveLine(){
 function utilSketcherCurveArcToCurveLine(arc){
     var line = new CurveLine();
     line.begin = {x:arc.begin.x,y:arc.begin.y} , line.end = {x:arc.end.x,y:arc.end.y};
+    line.id = arc.id;
     sceneAddModel(line);
     sceneRemoveModel(arc);
     unpickModel(arc);
