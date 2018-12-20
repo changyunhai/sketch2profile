@@ -126,7 +126,8 @@ startupUI([
             return e instanceof CurveLine;
         });
         lines.forEach(function(line){
-            utilSketcherCurveLineToCurveArc(line);
+            var arc = utilSketcherCurveLineToCurveArc(line);
+            arc.id = line.id;
         });
         buildArea();
     });
@@ -141,6 +142,7 @@ startupUI([
             var newLine = new CurveLine();
             newLine.begin = {x:middle.x,y:middle.y};
             newLine.end = end;
+            newLine.oId = line.oId;
             sceneAddModel(newLine);
             unpickModel(line);
         });
@@ -170,7 +172,8 @@ startupUI([
             return e instanceof CurveArc;
         });
         arcs.forEach(function(arc){
-            utilSketcherCurveArcToCurveLine(arc);
+            var line = utilSketcherCurveArcToCurveLine(arc);
+            line.id = arc.id;
         });
         buildArea();
 
@@ -246,6 +249,7 @@ startupUI([
             var newArc = new CurveArc();
             newArc.begin = {x:middle.x,y:middle.y} , newArc.end = {x:end.x,y:end.y};
             newArc.center = center;
+            newArc.oId = arc.oId;
             sceneAddModel(newArc);
             unpickModel(arc);
         });
