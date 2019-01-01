@@ -48,11 +48,26 @@ Object.assign(CmdSketcherMovePoint.prototype, {
                             var point = points[i];
                             field = point.field, curve = point.curve;
                             var pos = {x: curve[field].x + offset.x, y: curve[field].y + offset.y};
-                            curve[field] = pos;
+                            if (curve.type == "CurveLine") {
+                                curve[field] = pos;
+                            }else if(curve.type == "CurveArc"){
+                                var fan = curve.fan;
+                                curve[field] = pos;
+                                var mid = utilSketcherCurveArcGetMiddleByFanAngle(curve.begin, curve.end, fan, curve.middle);
+                                curve.mx = mid.x, curve.my = mid.y;
+                            }
                         }
                     }
                 } else if (field == "begin" || field == "end") {
+                    if (curve.type == "CurveLine") {
                         curve[field] = pos;
+                    }else if(curve.type == "CurveArc"){
+                        var fan = curve.fan;
+                        curve[field] = pos;
+                        var mid = utilSketcherCurveArcGetMiddleByFanAngle(curve.begin, curve.end, fan, curve.middle);
+                        curve.mx = mid.x, curve.my = mid.y;
+                    }
+
                 }
             }
         }
