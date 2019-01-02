@@ -11,7 +11,7 @@ function buildArea() {
     var be = s2p.BE();
     var profiles = s2p.BL();
     var loops = profiles.LO, loopsIdx = 0;
-
+    SketcherEditor_svg.clearProfilesLayer();
     for (var loopId in loops) {
         var loop = loops[loopId];
         var vertices = loop.v.map(function (pt) {

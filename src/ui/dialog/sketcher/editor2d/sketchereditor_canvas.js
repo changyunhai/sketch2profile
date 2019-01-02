@@ -67,6 +67,9 @@ Object.assign(SketcherEditorCanvas.prototype, {
                 this.layers.CURVES[key].attr("r",7 * Math.min(factor,1));
             }
         },this);
+    },
+    clearProfilesLayer:function(){
+        this.layers["PROFILES"].clear();
     }
 });
 
