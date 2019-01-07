@@ -117,11 +117,18 @@ var sketch2profile = (function () {
         var borderEdInfo = undefined;
         do {
             makeManStr();
-            var borderEdInfo = findBorderEd();
+            var borderEdInfo = findBorderEd(true);
             if (borderEdInfo) {
                 var loop = buildPf(borderEdInfo.vid, borderEdInfo.eid);
                 if (loop) LO[ided(loop)] = loop;
                 removeEd(borderEdInfo.eid);
+            }else{
+                borderEdInfo = findBorderEd(false);
+                if (borderEdInfo) {
+                    var loop = buildPf(borderEdInfo.vid, borderEdInfo.eid);
+                    if (loop) LO[ided(loop)] = loop;
+                    removeEd(borderEdInfo.eid);
+                }
             }
         } while (borderEdInfo != undefined);
         return {VE: VE, ED: ED, LO: LO};
@@ -244,7 +251,7 @@ var sketch2profile = (function () {
         } while (nonManEd);
     }
 
-    function findBorderEd() {
+    function findBorderEd(flag) {
         // find all vertices:
         var allEdV = [];
         for (var eid in ED) {
@@ -266,7 +273,12 @@ var sketch2profile = (function () {
                     if (ided(v) == ided(edV))continue;
                     var anotherEdV = {x: edV.x + edTan.x, y: edV.y + edTan.y};
                     if (Math2d.WhichSidePointOnLine(v, edV, anotherEdV) == "left") {
-                        sameDirection = false;
+                        if(flag){
+                            sameDirection = false;
+                        }else{
+                            sameDirection = true;
+                        }
+
                         break;
                     }
                 }
