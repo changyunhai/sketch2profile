@@ -118,8 +118,14 @@ Object.assign(CurveArc.prototype, {
     },
     getLerpNumber: function (pt) {
         console.assert(this.ptIn(pt), "pt is not in this curve");
-        var fan = utilCurveArcGetFanAngle(this.begin, this.end, pt) / 2;
-        return fan / this.fan;
+        var center = this.center;
+        if (!center || !isFinite(center.x)) return 0;
+        var angleBegin = Math2d.GetAngleHorizontaleCCW(center, this.begin);
+        var angleMiddle = Math2d.GetAngleHorizontaleCCW(center, pt);
+        var angle = angleMiddle - angleBegin;
+        angle = (360 + angle) % 360;
+        if (angle > 180)angle = 360 - angle;
+        return angle / this.fan;
     },
     equals: function (anotherCurve) {
         if (!(anotherCurve instanceof CurveArc))return false;
