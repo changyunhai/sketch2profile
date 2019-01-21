@@ -203,29 +203,27 @@ function utilCurveArcArcIntersect(arc1, arc2) {
 
     if (d > r1 + r2)return [];
     else if (Math2d.Equals(d, 0)) {
-        if (Math2d.Equals(r1, r2)){
-            if(Math2d.IsSamePoint(arc1.begin,arc2.begin)){
-                return [arc1.begin];
-            }else if(Math2d.IsSamePoint(arc1.end,arc2.end)){
-                return [arc1.end];
-            }else if(Math2d.IsSamePoint(arc1.begin,arc2.end)){
-                return [arc1.begin];
-            }else if(Math2d.IsSamePoint(arc1.end,arc2.begin)){
-                return [arc1.end];
-            }
-            return [];
-        }
-        else return [];
+       return [];
     } else if (Math2d.Equals(d, Math.abs(r1 - r2))) {//tangential
-        var tangency = Math2d.GetScaledPoint(r1 > r2 ? c1 : c2, r1 > r2 ? c2 : c1, r1 > r2 ? r1 : r2);
-        if (arc1.ptIn(tangency) && arc2.ptIn(tangency)) rv.push(tangency);
-        return rv;
+        if(Math2d.Equals(r1, r2)){
+            return [];
+        }else{
+            var tangency = Math2d.GetScaledPoint(r1 > r2 ? c1 : c2, r1 > r2 ? c2 : c1, r1 > r2 ? r1 : r2);
+            if (arc1.ptIn(tangency) && arc2.ptIn(tangency)) rv.push(tangency);
+            return rv;
+        }
+
     } else if (Math2d.Equals(d, r1 + r2)) {// one point:
         var tangency = Math2d.GetScaledPoint(c1, c2, r1);
         return (arc1.ptIn(tangency) && arc2.ptIn(tangency)) ? [tangency] : [];
     }
     // two points:
-    var pt_center = Math2d.GetScaledPoint(c1, c2, r1 * r1 / d), m = r1 * r2 / d;
+    var p=(r1+r2+d)/2;
+    var S=Math.sqrt(p*(p-r1)*(p-r2)*(p-d));
+    var m = S * 2 / d;
+    var c1Length = Math.sqrt(r1*r1 - m*m);
+
+    var pt_center = Math2d.GetScaledPoint(c1, c2, c1Length);
     var pt0 = Math2d.GetScaledPoint(pt_center, Math2d.RotatePointCW(pt_center, c1, 90), m);
     var pt1 = Math2d.GetScaledPoint(pt_center, Math2d.RotatePointCW(pt_center, c1, -90), m);
     if (arc1.ptIn(pt0) && arc2.ptIn(pt0))rv.push(pt0);
