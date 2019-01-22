@@ -16,6 +16,12 @@
                     <li>
                         <div class="fillet"></div>
                     </li>
+                    <li>
+                        <div class="saveToLocal"></div>
+                    </li>
+                    <li>
+                        <div class="openFromLocal"></div>
+                    </li>
                 </ul>
             </div>
         </div>

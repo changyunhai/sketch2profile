@@ -80,6 +80,11 @@ Object.assign(CurveArc.prototype, {
         saved.my = this.my;
         return saved;
     },
+    fromJSON:function(t,e){
+        CS(this, "fromJSON",t,e);
+        this.mx = t.mx;
+        this.my = t.my;
+    },
 
     getPolygon: function () {
         if (!this.isValid())return [];

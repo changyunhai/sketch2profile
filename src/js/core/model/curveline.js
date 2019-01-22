@@ -44,6 +44,9 @@ Object.assign(CurveLine.prototype, {
         saved.type = "CurveLine";
         return saved;
     },
+    fromJSON:function(t,e){
+        CS(this, "fromJSON",t,e);
+    },
     getPolygon: function () {
         return [{x: this.begin.x, y: this.begin.y, pid: this.begin.id},
             {x: this.end.x, y: this.end.y, pid: this.end.id}];

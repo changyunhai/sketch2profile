@@ -39,6 +39,13 @@ Object.assign(Curve.prototype, {
         saved.ey = this.ey;
         return saved;
     },
+    fromJSON:function(t,e){
+        CS(this, "fromJSON",t,e);
+        this.bx = t.bx;
+        this.by = t.by;
+        this.ex = t.ex;
+        this.ey = t.ey;
+    },
     getPolygon: function () {
         return [];
     },

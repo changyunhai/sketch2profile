@@ -66,6 +66,33 @@ startupUI([
     });
 
 
+    //save to local
+    $(".sketcherDialog .main .shape_list .saveToLocal").on(click, function () {
+
+        var str = utilSaveDocumentLocal();
+        var filename = "我的设计-" + (new Date()).toLocaleString() + ".json";
+        saveAs(new Blob([str], {type: "text/plain;charset=" + document.characterSet}), filename);
+    });
+
+    //open from local
+    $(".sketcherDialog .main .shape_list .openFromLocal").on(click, function () {
+        var fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.accept = ".json";
+        fileInput.addEventListener('change', function (event) {
+            var file = fileInput.files[0];
+            var reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = function (e) {
+                var content = this.result;
+                utilLoadDocumentStr(content);
+                delete fileInput;
+            }
+        });
+        fileInput.click();
+    });
+
+
     //-- commons:
     $(".sketcherDialog .sketcherSettingBox .close").on(click, function () {
         hideSketcherSettingBox();

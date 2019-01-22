@@ -13,6 +13,10 @@ Object.assign(Entity.prototype,IClonable, {
         saved.flag = this.flag;
         saved.oId = this.oId;
         return saved;
+    },fromJSON:function(t,e){
+        this.id = t.id;
+        this.oId = t.oId;
+        this.flag = t.flag;
     },copyTo:function(toEntity){
         toEntity.flag = this.flag;
     }
