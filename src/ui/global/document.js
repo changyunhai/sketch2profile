@@ -20,7 +20,13 @@ function utilLoadDocumentStr(content){
             var curveArc = new CurveArc();
             curveArc.fromJSON(model);
             sceneAddModel(curveArc);
-        }else if(model.type == "Loop"){
+        }
+    });
+
+    if (!SketcherEditor_svg)initSketcherEditor();
+    SketcherEditor_svg.show(sceneAllModels());
+    allModels.forEach(function(model){
+       if(model.type == "Loop"){
             var loop = new Loop();
             var allModels = sceneAllModels();
             loop.fromJSON(model,allModels);
@@ -28,9 +34,7 @@ function utilLoadDocumentStr(content){
         }
     });
 
-    if (!SketcherEditor_svg)initSketcherEditor();
-    SketcherEditor_svg.show(sceneAllModels());
-    buildArea();
+    /*buildArea();*/
     hideSketcherSettingBox();
 
 }
