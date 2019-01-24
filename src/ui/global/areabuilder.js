@@ -12,6 +12,11 @@ function buildArea() {
     var profiles = s2p.BL();
     var loops = profiles.LO, loopsIdx = 0;
     SketcherEditor_svg.clearProfilesLayer();
+    models.filter(function (entity) {
+        return entity instanceof Curve;
+    }).forEach(function(entity){
+        entity.flag = 0;
+    });
     for (var loopId in loops) {
         var loop = loops[loopId];
         var vertices = loop.v.map(function (pt) {
