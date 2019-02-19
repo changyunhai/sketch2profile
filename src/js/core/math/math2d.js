@@ -42,7 +42,7 @@ var Math2d = {};
     }
 
     function utilMathEquals(a, b, tolerance) {
-        return Math.abs(a - b) <= (tolerance || 0.001); // 1mm
+        return Math.abs(a - b) <= (tolerance || 1e-10);
     }
 
     function utilMathIsSamePoint(a, b, tolerance) {
