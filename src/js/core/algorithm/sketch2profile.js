@@ -27,7 +27,7 @@ var sketch2profile = (function () {
     })();
 
 
-    var tol = 0.01;//1cm
+    var tol = 1e-10;//1cm
 
     var CURVES = [];// curves input.
 
