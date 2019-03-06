@@ -145,7 +145,7 @@ Object.assign(CurveArc.prototype, {
 function utilCurveArcGetTangentOffset(center, middle, pt) {
     var angleOffset = 3, rpt = Math2d.RotatePointCW(center, pt, angleOffset);
     if (Vec2.dot(Vec2.difference(pt, rpt), Vec2.difference(pt, middle)) < 0)rpt = Math2d.RotatePointCW(center, pt, -angleOffset);
-    return utilCurveArcGetTangent(center, middle, rpt);
+    return utilCurveArcGetTangent(center, middle, pt);
 }
 function utilCurveArcGetTangent(center, middle, pt) {
     var normal = {x: pt.x - center.x, y: pt.y - center.y};

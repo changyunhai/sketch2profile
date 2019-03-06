@@ -65,5 +65,5 @@ function utilLoadDocumentStr(content){
         });
     });
     hideSketcherSettingBox();
-
+    buildArea();
 }
