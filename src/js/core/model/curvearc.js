@@ -232,13 +232,24 @@ function utilCurveArcArcIntersect(arc1, arc2) {
     var p=(r1+r2+d)/2;
     var S=Math.sqrt(p*(p-r1)*(p-r2)*(p-d));
     var m = S * 2 / d;
-    var c1Length = Math.sqrt(r1*r1 - m*m);
 
-    var pt_center = Math2d.GetScaledPoint(c1, c2, c1Length);
+    if(r1 > d || r2 > d){
+        if(r1 > r2){
+            var c1Length = Math.sqrt(r1*r1 - m*m);
+            var pt_center = Math2d.GetScaledPoint(c1, c2, c1Length);
+        }else{
+            var c1Length = Math.sqrt(r2*r2 - m*m);
+            var pt_center = Math2d.GetScaledPoint(c2, c1, c1Length);
+        }
+    }else{
+        var c1Length = Math.sqrt(r1*r1 - m*m);
+        var pt_center = Math2d.GetScaledPoint(c1, c2, c1Length);
+    }
     var pt0 = Math2d.GetScaledPoint(pt_center, Math2d.RotatePointCW(pt_center, c1, 90), m);
     var pt1 = Math2d.GetScaledPoint(pt_center, Math2d.RotatePointCW(pt_center, c1, -90), m);
     if (arc1.ptIn(pt0) && arc2.ptIn(pt0))rv.push(pt0);
     if (arc1.ptIn(pt1) && arc2.ptIn(pt1))rv.push(pt1);
+
     return rv;
 }
 

@@ -31,11 +31,15 @@ Object.assign(Loop.prototype, {
                 console.warn("Curve is not Valid, please check.");
             }
             var curvePoly = thisCurve.getPolygon(simplified);
-            if (Math2d.IsSamePoint(thisCurve.end, nextCurve.begin) || Math2d.IsSamePoint(thisCurve.end, nextCurve.end)) {
-            } else if (Math2d.IsSamePoint(thisCurve.begin, nextCurve.begin) || Math2d.IsSamePoint(thisCurve.begin, nextCurve.end)) {
-                curvePoly = curvePoly.reverse();
-            } else {
-                console.error("Error: not closed polygon.")
+            if(poly.length > 0){
+                if(Math2d.IsSamePoint(poly[poly.length - 1],curvePoly[0])){
+
+                }else{
+                    curvePoly.reverse();
+                    if(!Math2d.IsSamePoint(poly[poly.length - 1],curvePoly[0])){
+                        console.error("Error: not closed polygon.")
+                    }
+                }
             }
             Array.prototype.push.apply(poly, curvePoly);
         }
