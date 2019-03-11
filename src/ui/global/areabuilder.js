@@ -37,7 +37,7 @@ function buildArea() {
                 return newCurves.length == 1;
             });
         });
-        if (sameArea) {
+        if (sameArea && sameArea.curves.length == loop.nc.length) {
             area.id = sameArea.id;
         }
     }
