@@ -67,7 +67,7 @@ function buildArea() {
         var removeLoop = [];
         area.containLoops.forEach(function(loop){
             area.containLoops.forEach(function(otherLoop){
-                if(otherLoop.containLoops.includes(loop)){
+                if(otherLoop.containLoops.includes(loop) && !removeLoop.includes(loop)){
                     removeLoop.push(loop);
                 }
             });
