@@ -229,13 +229,6 @@ var sketch2profile = (function () {
     }
 
     function reloadCurve(){
-        CURVES.forEach(function(curve){
-            sceneRemoveModel(curve);
-            unpickModel(curve);
-        });
-        Object.keys(MCUED).forEach(function(key){
-            sceneAddModel(MCUED[key]);
-        });
     }
 
     function makeManStr() {
