@@ -120,13 +120,15 @@ var sketch2profile = (function () {
             var borderEdInfo = findBorderEd(true);
             if (borderEdInfo) {
                 var loop = buildPf(borderEdInfo.vid, borderEdInfo.eid);
-                if (loop) LO[ided(loop)] = loop;
+                var isDead = loop && (loop.e[loop.e.length - 1].id == loop.e[0].id);
+                if (loop&&!isDead) LO[ided(loop)] = loop;
                 removeEd(borderEdInfo.eid);
             }else{
                 borderEdInfo = findBorderEd(false);
                 if (borderEdInfo) {
                     var loop = buildPf(borderEdInfo.vid, borderEdInfo.eid);
-                    if (loop) LO[ided(loop)] = loop;
+                    var isDead = loop && (loop.e[loop.e.length - 1].id == loop.e[0].id);
+                    if (loop&&!isDead) LO[ided(loop)] = loop;
                     removeEd(borderEdInfo.eid);
                 }
             }
