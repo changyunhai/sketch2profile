@@ -6,7 +6,7 @@
  * sketch2profile.BE();
  * var profiles=sketch2profile.BL();
  *
- * And Then get your profile by: profiles.LO
+ * And Then get your profile by: profiles.LO object
  *
  */
 var sketch2profile = (function () {
@@ -71,13 +71,13 @@ var sketch2profile = (function () {
             var c0 = CU[curveIds[i]];
             for (var j = i + 1; j < curveIds.length; ++j) {
                 var c1 = CU[curveIds[j]], c0Model = findModel(c0.id), c1Model = findModel(c1.id);
-                if (c0 == c1)continue;
+                if (c0 == c1) continue;
                 var intersectPts = c0Model.intersect(c1Model);
                 intersectPts && intersectPts.forEach(function (pt) {
                     pt = appendV(pt);
                     var c0lerp = c0Model.getLerpNumber(pt), c1lerp = c1Model.getLerpNumber(pt);
-                    if (c0lerp > tol && c0lerp < 1 - tol)ArrayPushIfNotHas(c0.lerp, pt.id);
-                    if (c1lerp > tol && c1lerp < 1 - tol)ArrayPushIfNotHas(c1.lerp, pt.id);
+                    if (c0lerp > tol && c0lerp < 1 - tol) ArrayPushIfNotHas(c0.lerp, pt.id);
+                    if (c1lerp > tol && c1lerp < 1 - tol) ArrayPushIfNotHas(c1.lerp, pt.id);
                 });
             }
         }
@@ -117,21 +117,14 @@ var sketch2profile = (function () {
         var borderEdInfo = undefined;
         do {
             makeManStr();
-            var borderEdInfo = findBorderEd(true);
+            var borderEdInfo = findBorderEd();
             if (borderEdInfo) {
-                var loop = buildPf(borderEdInfo.vid, borderEdInfo.eid);
+                var loop = buildPf(borderEdInfo.vid, borderEdInfo.eid, borderEdInfo.side);
                 var isDead = loop && (loop.e[loop.e.length - 1].id == loop.e[0].id);
-                if (loop&&!isDead) LO[ided(loop)] = loop;
+                if (loop && !isDead) LO[ided(loop)] = loop;
                 removeEd(borderEdInfo.eid);
-            }else{
-                borderEdInfo = findBorderEd(false);
-                if (borderEdInfo) {
-                    var loop = buildPf(borderEdInfo.vid, borderEdInfo.eid);
-                    var isDead = loop && (loop.e[loop.e.length - 1].id == loop.e[0].id);
-                    if (loop&&!isDead) LO[ided(loop)] = loop;
-                    removeEd(borderEdInfo.eid);
-                }
             }
+            DEBUG("buildPf");
         } while (borderEdInfo != undefined);
         return {VE: VE, ED: ED, LO: LO};
     }
@@ -147,7 +140,11 @@ var sketch2profile = (function () {
 
     function getTan(ed, pt) {
         var cu = MCUED[ed.nc];
-        var tan = (Math2d.IsSamePoint(cu.begin, pt) ? cu.beginTangentOffset : cu.endTangentOffset);
+        var tan = undefined;
+        if (Math2d.IsSamePoint(cu.begin, pt, tol)) tan = cu.beginTangentOffset;
+        else if (Math2d.IsSamePoint(cu.end, pt, tol)) tan = cu.endTangentOffset;
+        else console.assert(false);
+        tan = new Vec2(tan.x, tan.y).normalize();
         return tan;
     }
 
@@ -156,7 +153,7 @@ var sketch2profile = (function () {
         var p = {x: pt.x, y: pt.y, e: []};
         for (var id in VE) {
             var pv = VE[id];
-            if (Math2d.IsSamePoint(p, pv, tol))return pv;
+            if (Math2d.IsSamePoint(p, pv, tol)) return pv;
         }
         VE[ided(p)] = p;
         return p;
@@ -167,8 +164,8 @@ var sketch2profile = (function () {
         var v1 = VE[p1id], v2 = VE[p2id];
         for (var id in ED) {
             var ed = ED[id];
-            if (ed.type != type)continue;
-            if (ed.mid != mid)continue;
+            if (ed.type != type) continue;
+            if (ed.mid != mid) continue;
             var edv2 = VE[ed.v2], edv1 = VE[ed.v1];
             if ((Math2d.IsSamePoint(edv2, v2, tol) && Math2d.IsSamePoint(edv1, v1, tol)) ||
                 (Math2d.IsSamePoint(edv2, v1, tol) && Math2d.IsSamePoint(edv1, v2, tol))) {
@@ -189,7 +186,7 @@ var sketch2profile = (function () {
             mcued.oId = oldC.id;
             var begin = VE[e.v1], end = VE[e.v2], middle = VE[e.mid];
             mcued.begin = begin, mcued.end = end;
-            if (oldC.center)mcued.center = oldC.center;
+            if (oldC.center) mcued.center = oldC.center;
 
             //mcued.begin.x = begin.x, mcued.begin.y = begin.y;//todo bugs may happen here ......
             //mcued.end.x = end.x, mcued.end.y = end.y;
@@ -207,7 +204,7 @@ var sketch2profile = (function () {
             var checkE1 = ED[eIds[i]];
             for (var j = 0; j < i; ++j) {
                 var checkE2 = ED[eIds[j]];
-                if (!checkE1 || !checkE2)continue;
+                if (!checkE1 || !checkE2) continue;
                 var e1mcued = MCUED[checkE1.nc], e2mcued = MCUED[checkE2.nc];
                 if (e1mcued && e2mcued && e1mcued.equals(e2mcued)) {
                     removeEd(checkE1.id);
@@ -222,13 +219,16 @@ var sketch2profile = (function () {
         delete ED[eid];
         var ev1 = VE[e.v1], ev2 = VE[e.v2];
         var eIdxv1 = ev1.e.indexOf(eid), eIdxv2 = ev2.e.indexOf(eid);
+        console.assert(eIdxv1 != -1 && eIdxv2 != -1);
         ev1.e.splice(eIdxv1, 1), ev2.e.splice(eIdxv2, 1);
+        if (ev1.e.length == 0) delete VE[ev1.id];
+        if (ev2.e.length == 0) delete VE[ev2.id];
         var cu = CU[e.c];
         cu.e.splice(cu.e.indexOf(eid), 1);
         return e;
     }
 
-    function reloadCurve(){
+    function reloadCurve() {
     }
 
     function makeManStr() {
@@ -242,60 +242,106 @@ var sketch2profile = (function () {
 
         do {
             var nonManEd = findNonManEd();
-            if (nonManEd)removeEd(nonManEd);
+            if (nonManEd) removeEd(nonManEd);
         } while (nonManEd);
     }
 
-    function findBorderEd(flag) {
+    function findBorderEd() {
         // find all vertices:
         var allEdV = [];
         for (var eid in ED) {
             var ed = ED[eid];
-            var edV1 = VE[ed.v1], edV2 = VE[ed.v2], edMid = VE[ed.mid];
-            ArrayPushIfNotHas(allEdV, edV1), ArrayPushIfNotHas(allEdV, edV2), ArrayPushIfNotHas(allEdV, edMid);
+            var edV1 = VE[ed.v1], edV2 = VE[ed.v2];
+            var edMid = MCUED[ed.nc] && MCUED[ed.nc].middle;
+
+            [edV1, edV2, edMid].forEach(function (pt) {
+                if (!pt) return;
+                var p = allEdV.find(function (edV) {
+                    return Math2d.IsSamePoint(pt, edV, tol);
+                });
+                if (!p) allEdV.push(pt);
+            });
         }
+
+        for (var eid in ED) view2d.drawText(eid, MCUED[ED[eid].nc].middle);
+
+        var center = {x: 0, y: 0};
+        allEdV.forEach(function (pt) {
+            center.x += pt.x, center.y += pt.y;
+        });
+        center.x /= allEdV.length, center.y /= allEdV.length;
+        var einfo = Object.keys(ED).map(function (eid) {
+            var largest = 0, ed = ED[eid];
+            var edV1 = VE[ed.v1], edV2 = VE[ed.v2];
+            var edMid = MCUED[ed.nc] && MCUED[ed.nc].middle;
+            [edV1, edV2, edMid].forEach(function (pt) {
+                var len = Math2d.LineLength(pt, center);
+                if (len > largest) largest = len;
+            });
+            return {eid: eid, maxDistance: largest};
+        });
+        var eids = einfo.sort(function (a, b) {
+            return b.maxDistance - a.maxDistance;
+        }).map(function (info) {
+            return info.eid;
+        });
+
 
         // check vertices in the same side of ed.(right)
-        for (var eid in ED) {
-            var ed = ED[eid];
+        for (var i = 0; i < eids.length; ++i) {
+            var ed = ED[eids[i]];
             var edVs = [VE[ed.v1], VE[ed.v2]];
             for (var e = 0; e < edVs.length; e++) {
-                var edV = edVs[e], sameDirection = true;
-                var edTan = getTan(ed, edV);
+                var edV = edVs[e], edTan = getTan(ed, edV);
+                var anotherEdV = {x: edV.x + edTan.x * 10, y: edV.y + edTan.y * 10};
+                var borderED = new CurveLine();
+                borderED.begin = edV, borderED.end = anotherEdV;
 
-                for (var i = 0; i < allEdV.length; ++i) {
-                    var v = allEdV[i];
-                    if (ided(v) == ided(edV))continue;
-                    var anotherEdV = {x: edV.x + edTan.x, y: edV.y + edTan.y};
-                    if (Math2d.WhichSidePointOnLine(v, edV, anotherEdV) == "left") {
-                        if(flag){
-                            sameDirection = false;
-                        }else{
-                            sameDirection = true;
+                var allRight = true, allLeft = true, hasIntersect = false;
+                for (var j = 0; j < eids.length; ++j) {
+                    var checkED = ED[eids[j]];
+                    if (ided(ed) == ided(checkED)) continue;
+                    var intersects = borderED.intersect(MCUED[checkED.nc]);
+                    intersects.forEach(function (intersect) {
+                        if (!Math2d.IsSamePoint(intersect, edV, tol) &&
+                            !Math2d.IsSamePoint(intersect, VE[checkED.v1], tol) &&
+                            !Math2d.IsSamePoint(intersect, VE[checkED.v2], tol)) {
+                            hasIntersect = true;
                         }
-
-                        break;
-                    }
+                    });
+                    if (hasIntersect === true) break;
+                    [VE[checkED.v1], VE[checkED.v2], MCUED[checkED.nc].middle].forEach(function (v) {
+                        var side = Math2d.WhichSidePointOnLine(v, edV, anotherEdV);
+                        if (side == "left") allRight = false;
+                        else if (side == "right") allLeft = false;
+                    });
                 }
-                if (sameDirection == true)return {eid: ed.id, vid: edV.id};
+                if (hasIntersect == false && (allRight === true || allLeft === true)) {
+                    view2d.drawLines([[edV, anotherEdV]], 3, "orange");
+                    return {eid: ed.id, vid: edV.id, side: (allRight ? "right" : "left")};
+                }
             }
         }
+
+
+        console.assert(Object.keys(ED).length == 0);
         return undefined;
     }
 
-    function buildPf(startVId, edId) {
+    function buildPf(startVId, edId, ptOnSide) {
 
-        function turnR(commonV, walkedEd) {// turn right
+        function turn(commonV, walkedEd) {// turn
             var fromTangent = getTan(walkedEd, commonV);
             var allEds = commonV.e.map(function (eId) {
                 return ED[eId];
             });
-            var rv = undefined, minTurnAngle = 360;
+            var rv = undefined, minTurnAngle = 361;
             for (var i = 0; i < allEds.length; ++i) {
                 var ed = allEds[i];
-                if (ided(ed) == ided(walkedEd))continue;
+                if (ided(ed) == ided(walkedEd)) continue;
                 var toTangent = getTan(ed, commonV);
                 var turnAngle = Math2d.LinelineCCWAngle({x: 0, y: 0}, fromTangent, toTangent);
+                if (ptOnSide == "left") turnAngle = 360 - turnAngle;
                 if (turnAngle < minTurnAngle) {
                     minTurnAngle = turnAngle;
                     rv = ed;
@@ -312,15 +358,25 @@ var sketch2profile = (function () {
             profile.e.push(walkEd);
             profile.v.push(endV);
             profile.nc.push(cued);
-            walkEd = turnR(endV, walkEd);
+            walkEd = turn(endV, walkEd);
             startV = endV;
         } while (walkEd && ided(startV) != startVId);
         return profile;
     }
 
+    //-----------------DP:
+    var CB = undefined;
+
+    function DEBUG(msg) {
+        if (CB) CB(msg, {VE: VE, CU: CU, ED: ED, LO: LO, MCUED: MCUED, CURVES: CURVES});
+    }
+
+    function DP(callback) {
+        if (callback) CB = callback;
+    }
 
 
-
-    return {INIT: INIT, BE: BE, BL: BL};
+    return {INIT: INIT, BE: BE, BL: BL, DP: DP};
 })();
+
 
