@@ -263,7 +263,7 @@ var sketch2profile = (function () {
             });
         }
 
-        for (var eid in ED) view2d.drawText(eid, MCUED[ED[eid].nc].middle);
+        //for (var eid in ED) view2d.drawText(eid, MCUED[ED[eid].nc].middle);
 
         var center = {x: 0, y: 0};
         allEdV.forEach(function (pt) {
@@ -317,7 +317,7 @@ var sketch2profile = (function () {
                     });
                 }
                 if (hasIntersect == false && (allRight === true || allLeft === true)) {
-                    view2d.drawLines([[edV, anotherEdV]], 3, "orange");
+                    //view2d.drawLines([[edV, anotherEdV]], 3, "orange");
                     return {eid: ed.id, vid: edV.id, side: (allRight ? "right" : "left")};
                 }
             }
