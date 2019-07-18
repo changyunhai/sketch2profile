@@ -1,7 +1,7 @@
 function Loop(opt) {
     CS(this, opt);
     defineValue(this, "curves", []);
-    defineValue(this, "begin", undefined);
+    defineValue(this, "vertices", []);
     defineValue(this, "containLoops", []);
 }
 
@@ -14,7 +14,11 @@ Object.assign(Loop.prototype, {
         saved.curves = this.curves.map(function (item) {
             return item.id;
         });
-        if (this.begin) saved.begin = {x: this.begin.x, y: this.begin.y};
+        saved.vertices = this.vertices.filter(function (pt) {
+            return pt;
+        }).map(function (pt) {
+            return {x: pt.x, y: pt.y};
+        });
         return saved;
     }, fromJSON: function (t, e) {
         CS(this, "fromJSON", t, e);
@@ -24,11 +28,11 @@ Object.assign(Loop.prototype, {
                 return model.id == item;
             });
         });
-        if (t.begin) this.begin = t.begin;
+        if (t.vertices) this.vertices = t.vertices;
     }, isValid: function () {
         return this.curves.length > 1;
     }, getPolygon: function (simplified) {
-        return buildLoopPoints(this.curves, this.begin);
+        return buildLoopPoints(this.curves, this.vertices[0]);
     }
 });
 

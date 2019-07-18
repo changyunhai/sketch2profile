@@ -28,7 +28,7 @@ function buildArea() {
         sceneAddModel(area);
 
         area.curves = loop.nc;
-        area.begin = loop.v[0];
+        area.vertices = loop.v;
         //匹配相同区域
         var sameArea = areas.find(function (item) {
             return item.curves.every(function (curve) {
