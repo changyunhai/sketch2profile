@@ -54,8 +54,8 @@ Object.assign(SketcherEditorCanvas.prototype, {
             var svgObject = this.viewObjects[model.id];
             if (!svgObject)svgObject = sketcherEditorCreateViewObject(this, model);
             this.viewObjects[model.id] = svgObject;
-            this.viewBound.addPoint(model.begin);
-            this.viewBound.addPoint(model.end);
+            if(model.begin)this.viewBound.addPoint(model.begin);
+            if(model.end)this.viewBound.addPoint(model.end);
         }, this);
     },
     fitByZoom:function(view){

@@ -15,3 +15,8 @@ function ArrayPushIfNotHas(arr, element) {
         return true;
     } else return false;
 }
+
+function getParameterByName(name) {
+    if (!location || !location.search) return undefined;
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
+}

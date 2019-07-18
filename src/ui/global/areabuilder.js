@@ -28,11 +28,12 @@ function buildArea() {
         sceneAddModel(area);
 
         area.curves = loop.nc;
+        area.begin = loop.v[0];
         //匹配相同区域
         var sameArea = areas.find(function (item) {
             return item.curves.every(function (curve) {
                 var newCurves = loop.nc.filter(function (e) {
-                    return e.oId == curve.id;
+                    return curve&&e&&e.oId == curve.id;
                 });
                 return newCurves.length == 1;
             });
