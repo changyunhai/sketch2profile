@@ -1,5 +1,5 @@
 # sketch2profile
-####Make profiles from your 2d sketch.
+#### Make profiles from your 2d sketch.
 
 the project is used for generating the area from the sketch.
 
@@ -17,5 +17,5 @@ Besides that, it is the basis of swept and extrusion for 3D tools.
 
 #### Note: History
 
-2019年7月20日：本项目进行了大幅改进，包括性能优化，添加吸附功能，进行压缩编译，bug fix等，
-并依据需求将此项目转为私有，从而便于进行交付。
+2019年7月20日：对本项目代码进行了大幅改进，包括性能优化，添加吸附功能，进行压缩编译，bug fix等，
+并依据需要将此项目转为私有，从而便于进行项目的商业交付。
