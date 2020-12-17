@@ -3,6 +3,7 @@ function CurveArc(opt) {
     defineValue(this, "mx", NaN);
     defineValue(this, "my", NaN);
 }
+
 CurveArc.prototype.type = "CurveArc";
 CE(CurveArc, Curve);
 
@@ -80,14 +81,14 @@ Object.assign(CurveArc.prototype, {
         saved.my = this.my;
         return saved;
     },
-    fromJSON:function(t,e){
-        CS(this, "fromJSON",t,e);
+    fromJSON: function (t, e) {
+        CS(this, "fromJSON", t, e);
         this.mx = t.mx;
         this.my = t.my;
     },
 
     getPolygon: function () {
-        if (!this.isValid())return [];
+        if (!this.isValid()) return [];
         //if (simplified === true)return [this.begin, this.middle, this.end];
         var arcAngleDelta = CURVEARC_TESSELATE_ARC_ANGLE;
         var loop = [], center = this.center;
@@ -103,20 +104,20 @@ Object.assign(CurveArc.prototype, {
         }
         loop.push({x: this.end.x, y: this.end.y, pid: this.end.id});//end
         console.log("CurveArc , center=[" + (center && center.x) + "," + (center && center.y) + "],radius=" + this.radius
-        + ",begin=[" + this.begin.x + "," + this.begin.y + "],end=[" +
-        this.end.x + "," + this.end.y + "],fanAngle=" + fanAngle);
+            + ",begin=[" + this.begin.x + "," + this.begin.y + "],end=[" +
+            this.end.x + "," + this.end.y + "],fanAngle=" + fanAngle);
         return loop;
     },
 
     intersect: function (anotherCurve) {
-        if (anotherCurve instanceof CurveLine)return utilCurveArcLineIntersect(this, anotherCurve);
-        else if (anotherCurve instanceof CurveArc)return utilCurveArcArcIntersect(anotherCurve, this);
+        if (anotherCurve instanceof CurveLine) return utilCurveArcLineIntersect(this, anotherCurve);
+        else if (anotherCurve instanceof CurveArc) return utilCurveArcArcIntersect(anotherCurve, this);
         else throw new Error("What curve ?");
     },
     ptIn: function (pt) {
-        if (!pt)return false;
-        if (Math2d.IsSamePoint(pt, this.begin) || Math2d.IsSamePoint(pt, this.end))return true;
-        if (!Math2d.Equals(Math2d.LineLength(pt, this.center), this.radius))return false;
+        if (!pt) return false;
+        if (Math2d.IsSamePoint(pt, this.begin) || Math2d.IsSamePoint(pt, this.end)) return true;
+        if (!Math2d.Equals(Math2d.LineLength(pt, this.center), this.radius)) return false;
         var isMiddleOnRight = (Math2d.WhichSidePointOnLine(this.middle, this.begin, this.end) == "right");
         var isPtOnRight = (Math2d.WhichSidePointOnLine(pt, this.begin, this.end) == "right");
         return isMiddleOnRight === isPtOnRight;
@@ -129,24 +130,34 @@ Object.assign(CurveArc.prototype, {
         var angleMiddle = Math2d.GetAngleHorizontaleCCW(center, pt);
         var angle = angleMiddle - angleBegin;
         angle = (360 + angle) % 360;
-        if (angle > 180)angle = 360 - angle;
+        if (angle > 180) angle = 360 - angle;
         return angle / this.fan;
     },
     equals: function (anotherCurve) {
-        if (!(anotherCurve instanceof CurveArc))return false;
-        if (this.mx != anotherCurve.mx || this.my != anotherCurve.my)return false;
+        if (!(anotherCurve instanceof CurveArc)) return false;
+        if (this.mx != anotherCurve.mx || this.my != anotherCurve.my) return false;
         if ((Math2d.IsSamePoint(this.begin, anotherCurve.begin) && Math2d.IsSamePoint(this.end, anotherCurve.end)) ||
-            (Math2d.IsSamePoint(this.end, anotherCurve.begin) && Math2d.IsSamePoint(this.begin, anotherCurve.end)))return true;
+            (Math2d.IsSamePoint(this.end, anotherCurve.begin) && Math2d.IsSamePoint(this.begin, anotherCurve.end))) return true;
         return false;
+    },
+    getDistanceAnchors: function (p) {
+        var anchors = CS(this, "getDistanceAnchors");
+        var line = new CurveLine();
+        line.begin = p, line.end = {x: 2 * this.center.x - p.x, y: 2 * this.center.y - p.y};
+        var pts = utilCurveArcLineIntersect(this, line, true);
+        if (this.ptIn(pts[0])) anchors.push(pts[0]);
+        if (this.ptIn(pts[1])) anchors.push(pts[1]);
+        return anchors;
     }
 });
 
 
 function utilCurveArcGetTangentOffset(center, middle, pt) {
     var angleOffset = 3, rpt = Math2d.RotatePointCW(center, pt, angleOffset);
-    if (Vec2.dot(Vec2.difference(pt, rpt), Vec2.difference(pt, middle)) < 0)rpt = Math2d.RotatePointCW(center, pt, -angleOffset);
+    if (Vec2.dot(Vec2.difference(pt, rpt), Vec2.difference(pt, middle)) < 0) rpt = Math2d.RotatePointCW(center, pt, -angleOffset);
     return utilCurveArcGetTangent(center, middle, pt);
 }
+
 function utilCurveArcGetTangent(center, middle, pt) {
     var normal = {x: pt.x - center.x, y: pt.y - center.y};
     var ptMid = {x: middle.x - pt.x, y: middle.y - pt.y};
@@ -182,11 +193,12 @@ function utilCurveArcGetFanAngle(begin, end, middle) {
     var angleMiddle = Math2d.GetAngleHorizontaleCCW(center, middle);
     var angle = angleMiddle - angleBegin;
     angle = (360 + angle) % 360;
-    if (angle > 180)angle = 360 - angle;
+    if (angle > 180) angle = 360 - angle;
     return angle * 2;
 }
+
 function utilCurveArcGetCenterByMiddle(begin, end, middle) {
-    if (!end || !begin)return undefined;
+    if (!end || !begin) return undefined;
     console.assert(!Math2d.IsSamePoint(begin, end));
     var beginEnd_Mid = {x: (begin.x + end.x) / 2, y: (begin.y + end.y) / 2};
     var radius = utilCurveArcGetRadiusByMiddle(begin, end, middle);
@@ -197,7 +209,7 @@ function utilCurveArcGetCenterByMiddle(begin, end, middle) {
 function utilCurveArcGetRadiusByMiddle(begin, end, mid) {
     console.assert(!Math2d.IsSamePoint(begin, end));
     var beginEnd_Mid = {x: (begin.x + end.x) / 2, y: (begin.y + end.y) / 2};
-    if (Math2d.IsSamePoint(beginEnd_Mid, mid))return Infinity;
+    if (Math2d.IsSamePoint(beginEnd_Mid, mid)) return Infinity;
 
     var minRadius = Math2d.LineLength(beginEnd_Mid, begin);
     var mid_mid_length = Math2d.LineLength(beginEnd_Mid, mid);
@@ -212,13 +224,13 @@ function utilCurveArcArcIntersect(arc1, arc2) {
     var c1 = arc1.center, r1 = arc1.radius, c2 = arc2.center, r2 = arc2.radius, rv = [];
     var d = Math2d.LineLength(c1, c2);
 
-    if (d > r1 + r2)return [];
+    if (d > r1 + r2) return [];
     else if (Math2d.Equals(d, 0)) {
-       return [];
+        return [];
     } else if (Math2d.Equals(d, Math.abs(r1 - r2))) {//tangential
-        if(Math2d.Equals(r1, r2)){
+        if (Math2d.Equals(r1, r2)) {
             return [];
-        }else{
+        } else {
             var tangency = Math2d.GetScaledPoint(r1 > r2 ? c1 : c2, r1 > r2 ? c2 : c1, r1 > r2 ? r1 : r2);
             if (arc1.ptIn(tangency) && arc2.ptIn(tangency)) rv.push(tangency);
             return rv;
@@ -229,51 +241,55 @@ function utilCurveArcArcIntersect(arc1, arc2) {
         return (arc1.ptIn(tangency) && arc2.ptIn(tangency)) ? [tangency] : [];
     }
     // two points:
-    var p=(r1+r2+d)/2;
-    var S=Math.sqrt(p*(p-r1)*(p-r2)*(p-d));
+    var p = (r1 + r2 + d) / 2;
+    var S = Math.sqrt(p * (p - r1) * (p - r2) * (p - d));
     var m = S * 2 / d;
 
-    if(r1 > d || r2 > d){
-        if(r1 > r2){
-            var c1Length = Math.sqrt(r1*r1 - m*m);
+    if (r1 > d || r2 > d) {
+        if (r1 > r2) {
+            var c1Length = Math.sqrt(r1 * r1 - m * m);
             var pt_center = Math2d.GetScaledPoint(c1, c2, c1Length);
-        }else{
-            var c1Length = Math.sqrt(r2*r2 - m*m);
+        } else {
+            var c1Length = Math.sqrt(r2 * r2 - m * m);
             var pt_center = Math2d.GetScaledPoint(c2, c1, c1Length);
         }
-    }else{
-        var c1Length = Math.sqrt(r1*r1 - m*m);
+    } else {
+        var c1Length = Math.sqrt(r1 * r1 - m * m);
         var pt_center = Math2d.GetScaledPoint(c1, c2, c1Length);
     }
     var pt0 = Math2d.GetScaledPoint(pt_center, Math2d.RotatePointCW(pt_center, c1, 90), m);
     var pt1 = Math2d.GetScaledPoint(pt_center, Math2d.RotatePointCW(pt_center, c1, -90), m);
-    if (arc1.ptIn(pt0) && arc2.ptIn(pt0))rv.push(pt0);
-    if (arc1.ptIn(pt1) && arc2.ptIn(pt1))rv.push(pt1);
+    if (arc1.ptIn(pt0) && arc2.ptIn(pt0)) rv.push(pt0);
+    if (arc1.ptIn(pt1) && arc2.ptIn(pt1)) rv.push(pt1);
 
     return rv;
 }
 
-function utilCurveArcLineIntersect(arc, line) {
+function utilCurveArcLineIntersect(arc, line, isInfinity/*default false*/) {
     var center = arc.center, radius = arc.radius, rv = [];
     var perpedicular = Math2d.GetPerpendicularIntersect(center, line.begin, line.end);
     var len = Math2d.LineLength(center, perpedicular);
-    if (len > radius)return [];
+    if (len > radius) return [];
     var d = Math.sqrt(radius * radius - len * len);
 
     var pt0 = Math2d.GetScaledPoint(perpedicular,
         Math2d.IsSamePoint(perpedicular, center) ? line.begin : Math2d.RotatePointCW(perpedicular, center, 90), d);
     var pt1 = Math2d.GetScaledPoint(perpedicular,
         Math2d.IsSamePoint(perpedicular, center) ? line.end : Math2d.RotatePointCW(perpedicular, center, -90), d);
-    if (arc.ptIn(pt0) && line.ptIn(pt0))rv.push(pt0);
-    if (arc.ptIn(pt1) && line.ptIn(pt1))rv.push(pt1);
+    if (isInfinity === true) return [pt0, pt1];
+    if (arc.ptIn(pt0) && line.ptIn(pt0)) rv.push(pt0);
+    if (arc.ptIn(pt1) && line.ptIn(pt1)) rv.push(pt1);
 
     return rv;
 }
 
 function utilCurveLineLineIntersect(line1, line2) {
-    if (Math2d.IsLineParallel(line1.begin, line1.end, line2.begin, line2.end))return [];
+    if (Math2d.IsLineParallel(line1.begin, line1.end, line2.begin, line2.end)) return [];
     var intersection = Math2d.LineLineIntersection(line1.begin, line1.end, line2.begin, line2.end);
     if (!line1.ptIn(intersection) || !line2.ptIn(intersection)) return [];// not intersect!!
     return [intersection];
 }
 
+
+
+ 

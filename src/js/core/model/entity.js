@@ -21,3 +21,5 @@ Object.assign(Entity.prototype,IClonable, {
         toEntity.flag = this.flag;
     }
 });
+
+ 

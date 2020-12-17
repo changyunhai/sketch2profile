@@ -5,6 +5,7 @@ function Curve(opt) {
     defineValue(this, "ex", NaN);
     defineValue(this, "ey", NaN);
 }
+
 CE(Curve, Entity);
 
 Object.defineProperties(Curve.prototype, {
@@ -23,8 +24,8 @@ Object.defineProperties(Curve.prototype, {
     }
 });
 Object.assign(Curve.prototype, {
-    copyTo:function(toEntity){
-        CS(this,"copyTo",toEntity);
+    copyTo: function (toEntity) {
+        CS(this, "copyTo", toEntity);
         toEntity.bx = this.bx;
         toEntity.by = this.by;
         toEntity.ex = this.ex;
@@ -39,8 +40,8 @@ Object.assign(Curve.prototype, {
         saved.ey = this.ey;
         return saved;
     },
-    fromJSON:function(t,e){
-        CS(this, "fromJSON",t,e);
+    fromJSON: function (t, e) {
+        CS(this, "fromJSON", t, e);
         this.bx = t.bx;
         this.by = t.by;
         this.ex = t.ex;
@@ -57,3 +58,30 @@ Object.assign(Curve.prototype, {
     }
 });
 
+Object.assign(Curve.prototype, {
+    getDistanceAnchors: function (p) {
+        return [this.begin, this.end];
+    },
+    closestPoint: function (p) {
+        var anchors = this.getDistanceAnchors();
+        var distance = Infinity, rv = undefined;
+        for (var i = 0; i < anchors.length; ++i) {
+            var pt = anchors[i], len = Math2d.LineLength(pt, p);
+            if (len < distance) distance = len, rv = pt;
+        }
+        return rv;
+    },
+    farthestPoint: function (p) {
+        var anchors = this.getDistanceAnchors(p);
+        var distance = -Infinity, rv = undefined;
+        for (var i = 0; i < anchors.length; ++i) {
+            var pt = anchors[i], len = Math2d.LineLength(pt, p);
+            if (len > distance) distance = len, rv = pt;
+        }
+        return rv;
+    }
+});
+
+
+
+ 

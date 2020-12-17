@@ -4,6 +4,8 @@ var ___globalPicked = [];// used inside this file only.
 var sceneChangedEvt = new signals.Signal();
 var pickedChangedEvt = new signals.Signal();
 
+var view2d = undefined;
+
 // picked:
 function unpickModel(model) {
     var idx = ___globalPicked.indexOf(model);

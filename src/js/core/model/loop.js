@@ -12,8 +12,13 @@ Object.assign(Loop.prototype, {
         var saved = CS(this, "toJSON");
         saved.type = "Loop";//todo curves
         saved.curves = this.curves.map(function (item) {
-            return item.id;
+            return {
+                id:item.id,
+                oId:item.oId
+            };
         });
+        saved.id = this.id;
+        saved.oId = this.oId;
         saved.vertices = this.vertices.filter(function (pt) {
             return pt;
         }).map(function (pt) {
@@ -23,12 +28,14 @@ Object.assign(Loop.prototype, {
     }, fromJSON: function (t, e) {
         CS(this, "fromJSON", t, e);
         var allModels = e || sceneAllModels();
-        this.curves = t.curves.map(function (item) {
+        this.curves = t.curves/*.map(function (item) {
             return allModels.find(function (model) {
                 return model.id == item;
             });
-        });
+        })*/;
         if (t.vertices) this.vertices = t.vertices;
+        this.id = t.id;
+        this.oId = t.oId;
     }, isValid: function () {
         return this.curves.length > 1;
     }, getPolygon: function (simplified) {
@@ -40,7 +47,7 @@ function buildLoopPoints(curves, startV) {
     var poly = [];
     for (var i = 0, len = curves.length; i < len; ++i) {
         var thisCurve = curves[i];
-        if (!thisCurve) continue;
+        if (!(thisCurve instanceof Curve)) continue;
 
         if (!thisCurve.isValid()) {
             console.warn("Curve is not Valid, please check.");
@@ -59,3 +66,5 @@ function buildLoopPoints(curves, startV) {
     //poly = Math2d.PointsMakeNormalize(poly);
     return poly.reverse();
 }
+
+ 

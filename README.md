@@ -17,5 +17,5 @@ Besides that, it is the basis of swept and extrusion for 3D tools.
 
 #### Note: History
 
-2019年7月20日：对本项目代码进行了大幅改进，包括性能优化，添加吸附功能，进行压缩编译，bug fix等，
-并依据需要将此项目转为私有，从而便于进行项目的商业交付。
+2019年7月20日：对本项目代码进行了大幅改进，包括性能优化，添加吸附功能，进行压缩编译，bug fix等
+2020.12.15 :Update .

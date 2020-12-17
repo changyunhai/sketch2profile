@@ -92,6 +92,50 @@ startupUI([
         fileInput.click();
     });
 
+    //打断
+    $(".sketcherDialog .main .shape_list .break").on(click, function () {
+
+        layer.confirm("此操作不可恢复。确定打断？",function(index){
+            layer.close(index);
+            breakLine();
+        });
+
+        function breakLine(){
+            var models = sceneAllModels();
+            var curves = models.filter(function (entity) {
+                return entity instanceof Curve;
+            });
+            var s2p = sketch2profile;
+            s2p.INIT(curves);
+            var be = s2p.BE();
+            var profiles = s2p.BL();
+
+            curves.forEach(function(curve){
+                sceneRemoveModel(curve);
+                unpickModel(curve);
+            });
+            Object.keys(profiles.MCUED).forEach(function(key){
+                var curveEntity = profiles.MCUED[key];
+                //寻找相同匹配的线
+                var sameCurve = curves.find(function(curve){
+                    if(curve.type == curveEntity.type && Math2d.IsSamePoint(curve.middle,curveEntity.middle)){
+                        if((Math2d.IsSamePoint(curve.begin,curveEntity.begin) && Math2d.IsSamePoint(curve.end,curveEntity.end))
+                            || (Math2d.IsSamePoint(curve.end,curveEntity.begin) && Math2d.IsSamePoint(curve.begin,curveEntity.end))){
+                            return true;
+                        }
+                    }
+                });
+                if(sameCurve){
+                    curveEntity =  sameCurve;
+                }
+                curveEntity.oId = curveEntity.id;
+                sceneAddModel(curveEntity);
+            });
+            buildArea();
+        }
+
+
+    });
 
     //-- commons:
     $(".sketcherDialog .sketcherSettingBox .close").on(click, function () {
@@ -168,7 +212,6 @@ startupUI([
             var newLine = new CurveLine();
             newLine.begin = {x:middle.x,y:middle.y};
             newLine.end = end;
-            newLine.oId = line.oId;
             sceneAddModel(newLine);
             unpickModel(line);
         });
@@ -274,7 +317,6 @@ startupUI([
             var newArc = new CurveArc();
             newArc.begin = {x:middle.x,y:middle.y} , newArc.end = {x:end.x,y:end.y};
             newArc.center = center;
-            newArc.oId = arc.oId;
             sceneAddModel(newArc);
             unpickModel(arc);
         });
@@ -407,3 +449,6 @@ pickedChangedEvt.add(function (picks, op, model) {
     else showSketcherSettingBox(picks);
 });
 
+document.oncontextmenu = function(){
+    return false;
+};

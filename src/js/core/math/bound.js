@@ -467,3 +467,5 @@ Bound.fromCenterAndOnePoint = function (center, onePoint) {
     bound.addPoint({x: 2 * center.x - onePoint.x, y: 2 * center.y - onePoint.y});
     return bound;
 }
+
+ 

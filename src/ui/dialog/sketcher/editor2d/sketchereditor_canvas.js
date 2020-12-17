@@ -7,14 +7,21 @@ function SketcherEditorCanvas(dom, opt) {
     this.viewBound = new Bound();
     this.viewBound.reset();
 
+    this.mousePoint = this.context.circle(0, 0, 5).attr({
+        display: "none", fill: "orange"
+    })
+
 }
 
 CE(SketcherEditorCanvas, View2dCanvasLayer);
 Object.assign(SketcherEditorCanvas.prototype, {
+    setMousePoint: function (pt) {
+        this.mousePoint.attr({cx: pt.x * 100, cy: pt.y * -100});
+    },
     init: (function () {
         var aleradyInit = false;
         return function () {
-            if (aleradyInit)return;
+            if (aleradyInit) return;
             CS(this, "init");
             utilBindSketcherEditorEvents(this);
             aleradyInit = true;
@@ -52,23 +59,23 @@ Object.assign(SketcherEditorCanvas.prototype, {
     createDisplay: function (models) {
         models.forEach(function (model) {
             var svgObject = this.viewObjects[model.id];
-            if (!svgObject)svgObject = sketcherEditorCreateViewObject(this, model);
+            if (!svgObject) svgObject = sketcherEditorCreateViewObject(this, model);
             this.viewObjects[model.id] = svgObject;
-            if(model.begin)this.viewBound.addPoint(model.begin);
-            if(model.end)this.viewBound.addPoint(model.end);
+            if (model.begin) this.viewBound.addPoint(model.begin);
+            if (model.end) this.viewBound.addPoint(model.end);
         }, this);
     },
-    fitByZoom:function(view){
+    fitByZoom: function (view) {
         var factor = view.viewport.width / view.initViewport.width;
-        Object.keys(this.layers.CURVES).forEach(function(key){
-            if(this.layers.CURVES[key].type == "path"){
-                this.layers.CURVES[key].attr("stroke-width",SketcherEditorCurve.PICKED_DISPLAY_STROKE_WIDTH * Math.min(factor,1));
-            }else if(this.layers.CURVES[key].type == "circle"){
-                this.layers.CURVES[key].attr("r",7 * Math.min(factor,1));
+        Object.keys(this.layers.CURVES).forEach(function (key) {
+            if (this.layers.CURVES[key].type == "path") {
+                this.layers.CURVES[key].attr("stroke-width", SketcherEditorCurve.PICKED_DISPLAY_STROKE_WIDTH * Math.min(factor, 1));
+            } else if (this.layers.CURVES[key].type == "circle") {
+                this.layers.CURVES[key].attr("r", 7 * Math.min(factor, 1));
             }
-        },this);
+        }, this);
     },
-    clearProfilesLayer:function(){
+    clearProfilesLayer: function () {
         this.layers["PROFILES"].clear();
     }
 });

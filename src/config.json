@@ -1,0 +1,51 @@
+{
+  "src": {
+    "DEBUG": [
+      "js/core/system/system.js",
+      "js/core/system/flag.js",
+      "js/core/system/interfaces.js",
+      "js/core/algorithm/sketch2profile.js",
+      "js/core/math/vec2.js",
+      "js/core/math/bound.js",
+      "js/core/math/line.js",
+      "js/core/math/math2d.js",
+      "js/core/model/entity.js",
+      "js/core/model/curve.js",
+      "js/core/model/curveline.js",
+      "js/core/model/curvearc.js",
+      "js/core/model/loop.js",
+      "js/core/system/api.js",
+      "js/cmd/cmdbase.js",
+      "js/view2d/viewobjectbase.js",
+      "js/view2d/canvasbase.js",
+      "js/view2d/canvaslayer.js",
+
+      "ui/global/constant.js",
+      "ui/global/scene.js",
+      "ui/global/document.js",
+      "ui/global/areabuilder.js",
+      "ui/global/evthandler.js",
+      "ui/global/startupui.js",
+      "ui/cmd/snap.js",
+      "ui/cmd/add.js",
+      "ui/cmd/addrect.js",
+      "ui/cmd/addcircle.js",
+      "ui/cmd/addline.js",
+      "ui/cmd/addfillet.js",
+      "ui/cmd/movepoint.js",
+      "ui/dialog/sketcher/editor2d/sketchereditor_init.js",
+      "ui/dialog/sketcher/editor2d/sketchereditor_curve.js",
+      "ui/dialog/sketcher/editor2d/sketchereditor_loop.js",
+      "ui/dialog/sketcher/editor2d/sketchereditor_canvas.js",
+      "ui/dialog/sketcher/editor2d/sketcher_curveutil.js",
+      "ui/dialog/sketcher/sketcher_dialog.js",
+      "ui/dialog/sketcher/sketcher_setting.js",
+      "ui/dialog/valueinput/valueinput.js",
+      "ui/layout/layout.js",
+      "ui/global/api.js"
+    ],
+    "RELEASE": [
+      "lib/build.min.js"
+    ]
+  }
+}

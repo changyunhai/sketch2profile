@@ -33,7 +33,7 @@ function buildArea() {
         var sameArea = areas.find(function (item) {
             return item.curves.every(function (curve) {
                 var newCurves = loop.nc.filter(function (e) {
-                    return curve&&e&&e.oId == curve.id;
+                    return curve && e.oId == curve.oId;
                 });
                 return newCurves.length == 1;
             });
@@ -58,7 +58,7 @@ function buildArea() {
             if(area == otherArea ) return;
             var otherPolygon = otherArea.getPolygon();
             var isInPolygon = otherPolygon.every(function(point){
-                 return  Math2d.IsPointInPoly(polygon, point);
+                return  Math2d.IsPointInPoly(polygon, point);
             });
             isInPolygon && area.containLoops.push(otherArea);
         });
@@ -68,14 +68,14 @@ function buildArea() {
         var removeLoop = [];
         area.containLoops.forEach(function(loop){
             area.containLoops.forEach(function(otherLoop){
-                if(otherLoop.containLoops.includes(loop) && !removeLoop.includes(loop)){
+                if(otherLoop.containLoops.includes(loop)){
                     removeLoop.push(loop);
                 }
             });
         });
         removeLoop.forEach(function(loop){
             var index = area.containLoops.indexOf(loop);
-            area.containLoops.splice(index,1);
+            index > -1 && area.containLoops.splice(index,1);
         });
     });
 }

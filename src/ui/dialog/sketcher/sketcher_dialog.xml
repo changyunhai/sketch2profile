@@ -22,6 +22,9 @@
                     <li>
                         <div class="openFromLocal"></div>
                     </li>
+                    <li>
+                        <div class="break"></div>
+                    </li>
                 </ul>
             </div>
         </div>

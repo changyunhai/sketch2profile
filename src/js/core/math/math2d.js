@@ -135,12 +135,28 @@ var Math2d = {};
             Math.max(lerpFrom.y, lerpTo.y) >= closestPt.y;
     }
 
-    function utilMathIsPointInPoly(poly,point){
+    function utilMathIsPointInPoly(poly, point) {
         if (!poly || poly.length < 3) return !1;
-        for (var i = !1, n = -1, r = poly.length, o = r - 1; ++n < r; o = n){
+        for (var i = !1, n = -1, r = poly.length, o = r - 1; ++n < r; o = n) {
             (poly[n].y <= point.y && point.y < poly[o].y || poly[o].y <= point.y && point.y < poly[n].y) && point.x < (poly[o].x - poly[n].x) * (point.y - poly[n].y) / (poly[o].y - poly[n].y) + poly[n].x && (i = !i);
         }
         return i
+    }
+
+    function utilMathGetOffsetPoint(start, end, your, side, length) {
+        var perpendicular = utilMathGetPerpendicularIntersect(your, start, end);
+        var dir = new Vec2(end.y - start.y, start.x - end.x).normalize().scale(length * (side == "left" ? -1 : 1));
+        return {x: perpendicular.x + dir.x, y: perpendicular.y + dir.y};
+    }
+
+    function utilMathPolyMeasurement(poly) {
+        var cnt = (poly && poly.length) || 0;
+        if (cnt < 3) return 0;
+        var a = 0;
+        for (var i = 0, j = cnt - 1; i < cnt; ++i) {
+            a += (poly[j].x + poly[i].x) * (poly[j].y - poly[i].y), j = i;
+        }
+        return -a * 0.5;
     }
 
     Object.assign(Math2d, {
@@ -159,8 +175,12 @@ var Math2d = {};
         GetPerpendicularIntersect: utilMathGetPerpendicularIntersect,
         PointsMakeNormalize: utilMathPointsMakeNormalize,
         ToRadius: ToRadius,
-        utilMathToDegree:utilMathToDegree,
-        IsPointInPoly:utilMathIsPointInPoly
+        utilMathToDegree: utilMathToDegree,
+        IsPointInPoly: utilMathIsPointInPoly,
+        GetOffsetPoint: utilMathGetOffsetPoint,
+        PolyMeasurement: utilMathPolyMeasurement
     });
 
 })();
+
+ 

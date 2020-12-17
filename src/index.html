@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>TEST</title>
+    <title>SKETCH2PROFILE TEST</title>
     <link rel="stylesheet" type="text/css" href="lib/layui-v2.2.6/css/layui.css">
     <link rel="stylesheet/less" type="text/css" href="ui/layout/layout.less">
     <link rel="stylesheet/less" type="text/css" href="ui/dialog/valueinput/valueinput.less">
@@ -20,45 +20,17 @@
 <script type="text/javascript" src="lib/filesaver.js"></script>
 <script type="text/javascript" src="lib/layui-v2.2.6/layui.all.js"></script>
 
-<script type="text/javascript" src="js/core/system/system.js"></script>
-<script type="text/javascript" src="js/core/system/flag.js"></script>
-<script type="text/javascript" src="js/core/system/interfaces.js"></script>
-<script type="text/javascript" src="js/core/algorithm/sketch2profile.js"></script>
-<script type="text/javascript" src="js/core/math/vec2.js"></script>
-<script type="text/javascript" src="js/core/math/bound.js"></script>
-<script type="text/javascript" src="js/core/math/line.js"></script>
-<script type="text/javascript" src="js/core/math/math2d.js"></script>
-<script type="text/javascript" src="js/core/model/entity.js"></script>
-<script type="text/javascript" src="js/core/model/curve.js"></script>
-<script type="text/javascript" src="js/core/model/curveline.js"></script>
-<script type="text/javascript" src="js/core/model/curvearc.js"></script>
-<script type="text/javascript" src="js/core/model/loop.js"></script>
-<script type="text/javascript" src="js/core/system/api.js"></script>
-<script type="text/javascript" src="js/cmd/cmdbase.js"></script>
-<script type="text/javascript" src="js/view2d/viewobjectbase.js"></script>
-<script type="text/javascript" src="js/view2d/canvasbase.js"></script>
-<script type="text/javascript" src="js/view2d/canvaslayer.js"></script>
+<script type="text/javascript">
+    var $body = $("body");
 
-<script type="text/javascript" src="ui/global/constant.js"></script>
-<script type="text/javascript" src="ui/global/scene.js"></script>
-<script type="text/javascript" src="ui/global/document.js"></script>
-<script type="text/javascript" src="ui/global/areabuilder.js"></script>
-<script type="text/javascript" src="ui/global/evthandler.js"></script>
-<script type="text/javascript" src="ui/global/startupui.js"></script>
-<script type="text/javascript" src="ui/cmd/snap.js"></script>
-<script type="text/javascript" src="ui/cmd/add.js"></script>
-<script type="text/javascript" src="ui/cmd/addrect.js"></script>
-<script type="text/javascript" src="ui/cmd/addcircle.js"></script>
-<script type="text/javascript" src="ui/cmd/addline.js"></script>
-<script type="text/javascript" src="ui/cmd/addfillet.js"></script>
-<script type="text/javascript" src="ui/cmd/movepoint.js"></script>
-<script type="text/javascript" src="ui/dialog/sketcher/editor2d/sketchereditor_init.js"></script>
-<script type="text/javascript" src="ui/dialog/sketcher/editor2d/sketchereditor_curve.js"></script>
-<script type="text/javascript" src="ui/dialog/sketcher/editor2d/sketchereditor_loop.js"></script>
-<script type="text/javascript" src="ui/dialog/sketcher/editor2d/sketchereditor_canvas.js"></script>
-<script type="text/javascript" src="ui/dialog/sketcher/editor2d/sketcher_curveutil.js"></script>
-<script type="text/javascript" src="ui/dialog/sketcher/sketcher_dialog.js"></script>
-<script type="text/javascript" src="ui/dialog/sketcher/sketcher_setting.js"></script>
-<script type="text/javascript" src="ui/dialog/valueinput/valueinput.js"></script>
-<script type="text/javascript" src="ui/layout/layout.js"></script>
+    $(document).ready(function () {
+        $.getJSON("./config.json", function (json) {
+            var files = json.src.DEBUG.concat(json.src.RELEASE);
+            files.forEach(function (f) {
+                $("<script>").attr("src", f).appendTo($body);
+            })
+
+        })
+    })
+</script>
 </html>

@@ -1,6 +1,7 @@
 function CurveLine(opt) {
     CS(this, opt);
 }
+
 CurveLine.prototype.type = "CurveLine";
 CE(CurveLine, Curve);
 
@@ -44,8 +45,8 @@ Object.assign(CurveLine.prototype, {
         saved.type = "CurveLine";
         return saved;
     },
-    fromJSON:function(t,e){
-        CS(this, "fromJSON",t,e);
+    fromJSON: function (t, e) {
+        CS(this, "fromJSON", t, e);
     },
     getPolygon: function () {
         return [{x: this.begin.x, y: this.begin.y, pid: this.begin.id},
@@ -57,13 +58,13 @@ Object.assign(CurveLine.prototype, {
     },
 
     intersect: function (anotherCurve) {
-        if (anotherCurve instanceof CurveLine)return utilCurveLineLineIntersect(this, anotherCurve);
-        else if (anotherCurve instanceof CurveArc)return utilCurveArcLineIntersect(anotherCurve, this);
+        if (anotherCurve instanceof CurveLine) return utilCurveLineLineIntersect(this, anotherCurve);
+        else if (anotherCurve instanceof CurveArc) return utilCurveArcLineIntersect(anotherCurve, this);
         else throw new Error("What curve ?");
     },
     ptIn: function (pt) {
-        if (!pt)return false;
-        if (Math2d.IsSamePoint(pt, this.begin) || Math2d.IsSamePoint(pt, this.end))return true;
+        if (!pt) return false;
+        if (Math2d.IsSamePoint(pt, this.begin) || Math2d.IsSamePoint(pt, this.end)) return true;
         var isPtIn = Math2d.IsPointInLineSegment(pt, this.begin, this.end, 0.01);
         return isPtIn;
     },
@@ -72,13 +73,22 @@ Object.assign(CurveLine.prototype, {
         return Math2d.GetLerpNumber(this.begin, this.end, pt);
     },
     equals: function (anotherCurve) {
-        if (!( anotherCurve instanceof CurveLine))return false;
+        if (!(anotherCurve instanceof CurveLine)) return false;
         if ((Math2d.IsSamePoint(this.begin, anotherCurve.begin) && Math2d.IsSamePoint(this.end, anotherCurve.end)) ||
-            (Math2d.IsSamePoint(this.end, anotherCurve.begin) && Math2d.IsSamePoint(this.begin, anotherCurve.end)))return true;
+            (Math2d.IsSamePoint(this.end, anotherCurve.begin) && Math2d.IsSamePoint(this.begin, anotherCurve.end))) return true;
         return false;
+    },
+    getDistanceAnchors: function (p) {
+        var anchors = CS(this, "getDistanceAnchors");
+        var perperdicular = Math2d.GetPerpendicularIntersect(p, anchors[0], anchors[1]);
+        if (this.ptIn(perperdicular)) anchors.push(perperdicular);
+        return anchors;
     }
 });
 
 
 
 
+
+
+ 

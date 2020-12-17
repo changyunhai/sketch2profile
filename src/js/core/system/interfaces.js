@@ -9,3 +9,5 @@ var IClonable = {
         throw new Error("Implement interface: copyTo");
     }
 }
+
+ 

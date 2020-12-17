@@ -1,10 +1,11 @@
 function CmdAdd() {
     CS(this);
     this.clickPoints = [];
-    this.starter = {x: 0, y: 0};
 }
+
 CE(CmdAdd, CmdSnap);
 Object.assign(CmdAdd.prototype, {
+
     end: function () {
         CS(this, "end");
         buildArea();
@@ -17,7 +18,9 @@ Object.assign(CmdAdd.prototype, {
     },
 
     onMouseMove: function (evt, pos) {
+        var pos = this.snapPoint(pos);
         this.movePoint(this.clickPoints.length, pos, evt);
+        view2d.setMousePoint(pos);
     },
 
     setPoint: function (idx, pos, evt) {
@@ -25,7 +28,6 @@ Object.assign(CmdAdd.prototype, {
     },
     movePoint: function (idx, pos, evt) {
         var snapPt = this.snapPoint(pos);
-        if (idx == 0)this.starter = snapPt;
         return snapPt;
     }
 });
