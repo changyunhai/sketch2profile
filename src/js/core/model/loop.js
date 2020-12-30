@@ -68,3 +68,5 @@ function buildLoopPoints(curves, startV) {
 }
 
  
+
+//# sourceURL=file://js/core/model/loop.js

@@ -23,3 +23,5 @@ Object.assign(Entity.prototype,IClonable, {
 });
 
  
+
+//# sourceURL=file://js/core/model/entity.js

@@ -155,3 +155,5 @@ function view2dCanvasBindMouseEvent(view) {
     svg.addEventListener('mouseup', mouseEvt);
     svg.addEventListener('touchmove', mouseEvt);
 }
+
+//# sourceURL=file://js/view2d/canvasbase.js

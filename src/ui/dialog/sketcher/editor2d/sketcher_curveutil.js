@@ -131,3 +131,6 @@ function utilSketcherCurveArcToCurveLine(arc){
     unpickModel(arc);
     return line;
 }
+
+
+//# sourceURL=file://ui/dialog/sketcher/editor2d/sketcher_curveutil.js

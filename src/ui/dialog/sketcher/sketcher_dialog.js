@@ -452,3 +452,5 @@ pickedChangedEvt.add(function (picks, op, model) {
 document.oncontextmenu = function(){
     return false;
 };
+
+//# sourceURL=file://ui/dialog/sketcher/sketcher_dialog.js

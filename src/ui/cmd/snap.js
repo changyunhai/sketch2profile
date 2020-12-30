@@ -41,3 +41,5 @@ Object.assign(CmdSnap.prototype, {
         return snapPt || pt;
     }
 });
+
+//# sourceURL=file://ui/cmd/snap.js

@@ -169,3 +169,5 @@ Object.assign(Line.prototype, {
 
 
  
+
+//# sourceURL=file://js/core/math/line.js

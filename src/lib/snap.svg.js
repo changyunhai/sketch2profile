@@ -8196,3 +8196,6 @@ Snap.plugin(function (Snap, Element, Paper, glob, Fragment) {
 return Snap;
 }));
 
+
+
+//# sourceURL=file://lib/snap.svg.js

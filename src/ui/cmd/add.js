@@ -31,3 +31,5 @@ Object.assign(CmdAdd.prototype, {
         return snapPt;
     }
 });
+
+//# sourceURL=file://ui/cmd/add.js

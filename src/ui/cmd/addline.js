@@ -37,3 +37,5 @@ Object.assign(CmdAddLine.prototype, {
         if (idx >= 1)this.line.end = pos;
     }
 });
+
+//# sourceURL=file://ui/cmd/addline.js

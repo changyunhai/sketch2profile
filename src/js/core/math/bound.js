@@ -469,3 +469,5 @@ Bound.fromCenterAndOnePoint = function (center, onePoint) {
 }
 
  
+
+//# sourceURL=file://js/core/math/bound.js

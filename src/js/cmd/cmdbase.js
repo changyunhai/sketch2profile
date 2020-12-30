@@ -43,3 +43,6 @@ Object.assign(CmdBase.prototype, {
         }
     });
 })();
+
+
+//# sourceURL=file://js/cmd/cmdbase.js

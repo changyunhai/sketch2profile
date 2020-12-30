@@ -508,4 +508,4 @@ var sketch2profile = (function () {
 
 
 
- 
+//# sourceURL=file://js/core/algorithm/sketch2profile.js

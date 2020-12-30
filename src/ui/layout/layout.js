@@ -29,3 +29,5 @@ startupUI([
         popUpSketcherDialogPromise(curves);
     });
 });
+
+//# sourceURL=file://ui/layout/layout.js

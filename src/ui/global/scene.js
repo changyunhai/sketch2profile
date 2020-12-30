@@ -52,3 +52,5 @@ function sceneReset() {
     ___globalPicked = [];
     ___globalScene = [];
 }
+
+//# sourceURL=file://ui/global/scene.js

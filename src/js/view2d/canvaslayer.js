@@ -28,3 +28,6 @@ Object.assign(View2dCanvasLayer.prototype, {
     }
 });
 
+
+
+//# sourceURL=file://js/view2d/canvaslayer.js

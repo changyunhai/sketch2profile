@@ -92,3 +92,5 @@ Object.assign(CurveLine.prototype, {
 
 
  
+
+//# sourceURL=file://js/core/model/curveline.js

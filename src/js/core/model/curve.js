@@ -85,3 +85,5 @@ Object.assign(Curve.prototype, {
 
 
  
+
+//# sourceURL=file://js/core/model/curve.js

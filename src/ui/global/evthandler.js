@@ -5,3 +5,6 @@ pickedChangedEvt.add(function (picked, op, model) {
 });
 
 
+
+
+//# sourceURL=file://ui/global/evthandler.js

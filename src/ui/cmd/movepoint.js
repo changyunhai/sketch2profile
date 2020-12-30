@@ -77,3 +77,6 @@ Object.assign(CmdSketcherMovePoint.prototype, {
 
 
 
+
+
+//# sourceURL=file://ui/cmd/movepoint.js

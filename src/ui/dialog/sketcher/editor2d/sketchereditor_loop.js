@@ -53,3 +53,6 @@ Object.assign(SketcherEditorLoop.prototype, {
     }
 });
 
+
+
+//# sourceURL=file://ui/dialog/sketcher/editor2d/sketchereditor_loop.js

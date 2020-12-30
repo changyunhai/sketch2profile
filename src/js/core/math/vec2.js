@@ -238,3 +238,5 @@ Vec2.getRotAngle = function (base, from, to) {
 
 
  
+
+//# sourceURL=file://js/core/math/vec2.js

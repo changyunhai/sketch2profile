@@ -41,3 +41,5 @@ Object.assign(CmdAddCircle.prototype, {
     }
 
 });
+
+//# sourceURL=file://ui/cmd/addcircle.js

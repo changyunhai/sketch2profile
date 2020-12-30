@@ -14,3 +14,5 @@ function startupUI(xmls) {
     });
     return p;
 }
+
+//# sourceURL=file://ui/global/startupui.js

@@ -51,3 +51,5 @@ Object.assign(CmdAddRect.prototype, {
     }
 
 });
+
+//# sourceURL=file://ui/cmd/addrect.js

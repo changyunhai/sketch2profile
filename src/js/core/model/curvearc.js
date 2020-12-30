@@ -293,3 +293,5 @@ function utilCurveLineLineIntersect(line1, line2) {
 
 
  
+
+//# sourceURL=file://js/core/model/curvearc.js

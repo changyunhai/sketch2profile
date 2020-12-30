@@ -173,3 +173,5 @@ function utilSnapBuildAreaPolySvgPath(model) {
         }).join("L");
     return svgPath;
 }
+
+//# sourceURL=file://ui/dialog/sketcher/editor2d/sketchereditor_curve.js

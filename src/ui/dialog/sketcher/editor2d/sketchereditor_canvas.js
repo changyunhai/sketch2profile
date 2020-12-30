@@ -99,3 +99,6 @@ function utilBindSketcherEditorEvents(view) {
     svg.addEventListener('mouseup', onMouseEvent);
     svg.addEventListener('click', onMouseEvent);
 }
+
+
+//# sourceURL=file://ui/dialog/sketcher/editor2d/sketchereditor_canvas.js

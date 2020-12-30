@@ -43,3 +43,6 @@ function sceneChangeEvtHandler(scene, op, model) {
         console.warn("scene change warning: " + op);
     }
 }
+
+
+//# sourceURL=file://ui/dialog/sketcher/editor2d/sketchereditor_init.js

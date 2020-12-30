@@ -21,3 +21,6 @@ Object.assign(ViewObjectBase.prototype, {
     }
 });
 
+
+
+//# sourceURL=file://js/view2d/viewobjectbase.js

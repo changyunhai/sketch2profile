@@ -67,3 +67,5 @@ function utilLoadDocumentStr(content){
     hideSketcherSettingBox();
     buildArea();
 }
+
+//# sourceURL=file://ui/global/document.js

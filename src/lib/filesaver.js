@@ -251,3 +251,5 @@ if (typeof module !== "undefined" && module.exports) {
         return saveAs;
     });
 }
+
+//# sourceURL=file://lib/filesaver.js

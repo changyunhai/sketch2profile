@@ -11,3 +11,5 @@ var IClonable = {
 }
 
  
+
+//# sourceURL=file://js/core/system/interfaces.js

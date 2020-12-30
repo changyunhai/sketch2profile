@@ -79,3 +79,5 @@ function buildArea() {
         });
     });
 }
+
+//# sourceURL=file://ui/global/areabuilder.js
